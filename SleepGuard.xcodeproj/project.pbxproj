@@ -19,6 +19,7 @@
 		C5B7ABCA2A1628A900B90841 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABC92A1628A900B90841 /* HomeView.swift */; };
 		C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */; };
 		C5B7ABCF2A16482200B90841 /* ChangeWakeUpModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABCE2A16482200B90841 /* ChangeWakeUpModal.swift */; };
+		C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD12A165C4900B90841 /* WakeUpType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		C5B7ABC92A1628A900B90841 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
 		C5B7ABCE2A16482200B90841 /* ChangeWakeUpModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeWakeUpModal.swift; sourceTree = "<group>"; };
+		C5B7ABD12A165C4900B90841 /* WakeUpType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeUpType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 		C5387B872A159BB5000FCE46 /* SleepGuard */ = {
 			isa = PBXGroup;
 			children = (
+				C5B7ABD02A165C3600B90841 /* Enum */,
 				C5B7ABCB2A163D4100B90841 /* ViewModel */,
 				C5387BAC2A159DD6000FCE46 /* Views */,
 				C5387B882A159BB5000FCE46 /* SleepGuardApp.swift */,
@@ -152,6 +155,14 @@
 				C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C5B7ABD02A165C3600B90841 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				C5B7ABD12A165C4900B90841 /* WakeUpType.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +269,7 @@
 			files = (
 				C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */,
 				C5B7ABCA2A1628A900B90841 /* HomeView.swift in Sources */,
+				C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */,
 				C5387B8B2A159BB5000FCE46 /* ContentView.swift in Sources */,
 				C5B7ABCF2A16482200B90841 /* ChangeWakeUpModal.swift in Sources */,
 				C5387B892A159BB5000FCE46 /* SleepGuardApp.swift in Sources */,
