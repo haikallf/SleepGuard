@@ -8,6 +8,51 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State var isChangeWakeUpModalShown: Bool = false
+    @State var wakeUpTime: Date?
+    
+    func formatTime(time: Date) -> String {
+        let dateFormatterTemplate = DateFormatter()
+        dateFormatterTemplate.setLocalizedDateFormatFromTemplate("HH.mm")
+        return dateFormatterTemplate.string(from: time)
+    }
+    
+    func getTimeOfDay() -> String {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour], from: wakeUpTime ?? Date())
+        
+        guard let hour = components.hour else {
+            return ""
+        }
+        
+        if hour < 12 {
+            return "Morning"
+        } else if hour < 17 {
+            return "Afternoon"
+        } else if hour < 20 {
+            return "Evening"
+        } else {
+            return "Night"
+        }
+    }
+    
+    func formatDay() -> String {
+        let calendar = Calendar.current
+        
+        var alarmMessage = ""
+        
+        if calendar.isDateInToday(wakeUpTime ?? Date()) {
+            alarmMessage = "This "
+        } else if calendar.isDateInTomorrow(wakeUpTime ?? Date()) {
+            alarmMessage = "Tomorrow "
+        } else {
+            alarmMessage = "Who Knows"
+        }
+        
+        alarmMessage = alarmMessage + getTimeOfDay()
+        
+        return alarmMessage
+    }
     var body: some View {
         VStack {            
             ZStack {
@@ -22,9 +67,7 @@ struct HomeView: View {
                     .frame(width: 220)
                     .rotationEffect(.init(degrees: -90))
                 
-                
-                VStack{
-                    
+                VStack {
                     Text("7hr 16m")
                         .font(.title)
                         .fontWeight(.semibold)
@@ -51,17 +94,19 @@ struct HomeView: View {
             
             HStack {
                 VStack (alignment: .leading) {
-                    Text("08.00")
+                    Text(formatTime(time: wakeUpTime ?? Date()))
                         .font(.system(size: 45))
                     
-                    Text("This Morning")
+                    Text(formatDay())
                         .font(.subheadline)
                 }
                 .fontWeight(.light)
                 
                 Spacer()
                 
-                Button(action: {}, label: {
+                Button(action: {
+                    isChangeWakeUpModalShown.toggle()
+                }, label: {
                     Text("CHANGE")
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
@@ -69,7 +114,11 @@ struct HomeView: View {
                         .foregroundColor(Color("yellow"))
                         .background(Color("darkGray"))
                         .fontWeight(.semibold)
-                        
+                        .sheet(isPresented: $isChangeWakeUpModalShown) {
+                            NavigationView {
+                                ChangeWakeUpModal(wakeUpTime: $wakeUpTime)
+                            }
+                        }
                 })
                 .clipShape(Capsule())
             }
@@ -87,5 +136,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .preferredColorScheme(.dark)
     }
 }

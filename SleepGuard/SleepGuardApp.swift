@@ -12,6 +12,7 @@ struct SleepGuardApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.dark)
         }
     }
 }
