@@ -9,50 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     @State var isChangeWakeUpModalShown: Bool = false
-    @State var wakeUpTime: Date?
+    @StateObject var alarmViewModel: AlarmViewModel = AlarmViewModel()
     
-    func formatTime(time: Date) -> String {
-        let dateFormatterTemplate = DateFormatter()
-        dateFormatterTemplate.setLocalizedDateFormatFromTemplate("HH.mm")
-        return dateFormatterTemplate.string(from: time)
-    }
-    
-    func getTimeOfDay() -> String {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.hour], from: wakeUpTime ?? Date())
-        
-        guard let hour = components.hour else {
-            return ""
-        }
-        
-        if hour < 12 {
-            return "Morning"
-        } else if hour < 17 {
-            return "Afternoon"
-        } else if hour < 20 {
-            return "Evening"
-        } else {
-            return "Night"
-        }
-    }
-    
-    func formatDay() -> String {
-        let calendar = Calendar.current
-        
-        var alarmMessage = ""
-        
-        if calendar.isDateInToday(wakeUpTime ?? Date()) {
-            alarmMessage = "This "
-        } else if calendar.isDateInTomorrow(wakeUpTime ?? Date()) {
-            alarmMessage = "Tomorrow "
-        } else {
-            alarmMessage = "Who Knows"
-        }
-        
-        alarmMessage = alarmMessage + getTimeOfDay()
-        
-        return alarmMessage
-    }
     var body: some View {
         VStack {            
             ZStack {
@@ -94,10 +52,10 @@ struct HomeView: View {
             
             HStack {
                 VStack (alignment: .leading) {
-                    Text(formatTime(time: wakeUpTime ?? Date()))
+                    Text(alarmViewModel.formatTime(time: alarmViewModel.wakeUpTime ?? Date()))
                         .font(.system(size: 45))
                     
-                    Text(formatDay())
+                    Text(alarmViewModel.formatDay())
                         .font(.subheadline)
                 }
                 .fontWeight(.light)
@@ -116,7 +74,7 @@ struct HomeView: View {
                         .fontWeight(.semibold)
                         .sheet(isPresented: $isChangeWakeUpModalShown) {
                             NavigationView {
-                                ChangeWakeUpModal(wakeUpTime: $wakeUpTime)
+                                ChangeWakeUpModal(alarmViewModel: alarmViewModel, wakeUpType: $alarmViewModel.wakeUpType, standUpDuration: $alarmViewModel.standUpDuration, walkSteps: $alarmViewModel.walkSteps)
                             }
                         }
                 })

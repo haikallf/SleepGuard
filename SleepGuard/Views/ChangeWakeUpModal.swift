@@ -10,19 +10,15 @@ import SwiftUI
 struct ChangeWakeUpModal: View {
     @Environment(\.dismiss) var dismiss
     
-    @Binding var wakeUpTime: Date?
+    var alarmViewModel: AlarmViewModel
+    @Binding var wakeUpType: String
+    @Binding var standUpDuration: Int
+    @Binding var walkSteps: Int
+    
     @State var selectedDate = Date()
-    @State var wakeUpType: String = WakeUpType.StandUp.rawValue
-    @State var standUpDuration: Int = 30
-    @State var walkSteps: Int = 10
+    
     let wakeUpTypes: [WakeUpType] = WakeUpType.allCases
-    
-    func formatTime(time: Date) -> String {
-        let dateFormatterTemplate = DateFormatter()
-        dateFormatterTemplate.setLocalizedDateFormatFromTemplate("dd mm yy HH:mm")
-        return dateFormatterTemplate.string(from: time)
-    }
-    
+
     var body: some View {
         VStack {
             DatePicker(
@@ -33,8 +29,6 @@ struct ChangeWakeUpModal: View {
                 )
             .datePickerStyle(WheelDatePickerStyle())
             .labelsHidden()
-            
-//            Text(formatTime(time: selectedDate))
             
             VStack {
                 HStack {
@@ -52,9 +46,9 @@ struct ChangeWakeUpModal: View {
                 Divider()
                 
                 HStack {
-                    Text("\(wakeUpType == WakeUpType.StandUp.rawValue ? "Duration" : "Steps")")
+                    Text("\(alarmViewModel.wakeUpType == WakeUpType.StandUp.rawValue ? "Duration" : "Steps")")
                     Spacer()
-                    if (wakeUpType == WakeUpType.StandUp.rawValue) {
+                    if (alarmViewModel.wakeUpType == WakeUpType.StandUp.rawValue) {
                         Picker("", selection: $standUpDuration) {
                             ForEach(1..<6, id: \.self) {elmt in
                                 Text("\(elmt * 30)s")
@@ -91,8 +85,7 @@ struct ChangeWakeUpModal: View {
             Spacer()
         }
         .padding()
-//        .onAppear {
-//            print(wakeUpTypes)        }
+
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Text("Cancel")
@@ -113,7 +106,7 @@ struct ChangeWakeUpModal: View {
                     .fontWeight(.regular)
                     .foregroundColor(Color("yellow"))
                     .onTapGesture {
-                        wakeUpTime = selectedDate
+                        alarmViewModel.wakeUpTime = selectedDate
                         dismiss()
                     }
             }
@@ -123,7 +116,7 @@ struct ChangeWakeUpModal: View {
 
 struct ChangeWakeUpModal_Previews: PreviewProvider {
     static var previews: some View {
-        ChangeWakeUpModal(wakeUpTime: .constant(Date()))
+        ChangeWakeUpModal(alarmViewModel: AlarmViewModel(), wakeUpType: .constant("Stand Up"), standUpDuration: .constant(10), walkSteps: .constant(10))
             .preferredColorScheme(.dark)
     }
 }
