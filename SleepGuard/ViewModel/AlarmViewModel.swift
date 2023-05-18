@@ -8,13 +8,30 @@
 import UIKit
 
 class AlarmViewModel: NSObject, ObservableObject {
+    private(set) var connectivityProvider: ConnectionProvider
+    
     @Published var wakeUpTime: Date?
     
-    @Published var wakeUpType: String = WakeUpType.StandUp.rawValue
+    @Published var wakeUpType: String
     
-    @Published var standUpDuration: Int = 30
+    @Published var standUpDuration: Int
     
-    @Published var walkSteps: Int = 10
+    @Published var walkSteps: Int
+    
+//    @Published var alarm: Alarm
+    
+    init(connectivityProvider: ConnectionProvider) {
+        self.wakeUpType = WakeUpType.StandUp.rawValue
+        self.standUpDuration = 30
+        self.walkSteps = 10
+        self.connectivityProvider = connectivityProvider
+        self.connectivityProvider.connect()
+//        self.alarm = Alarm(wakeUpTime : nil, wakeUpType: WakeUpType.StandUp.rawValue, standUpDuration: 30, walkSteps: 10)
+    }
+    
+    func setWakeUpTime(_ wakeUpTime: Date) {
+        self.wakeUpTime = wakeUpTime
+    }
     
     func formatTime(time: Date) -> String {
         let dateFormatterTemplate = DateFormatter()

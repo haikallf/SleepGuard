@@ -11,9 +11,10 @@ struct ChangeWakeUpModal: View {
     @Environment(\.dismiss) var dismiss
     
     var alarmViewModel: AlarmViewModel
-    @Binding var wakeUpType: String
-    @Binding var standUpDuration: Int
-    @Binding var walkSteps: Int
+    @Binding var wakeUpTime: Date?
+    @State var wakeUpType: String = WakeUpType.StandUp.rawValue
+    @State var standUpDuration: Int = 30
+    @State var walkSteps: Int = 10
     
     @State var selectedDate = Date()
     
@@ -25,7 +26,6 @@ struct ChangeWakeUpModal: View {
                     "Start Date",
                     selection: $selectedDate,
                     displayedComponents: [.hourAndMinute]
-                    
                 )
             .datePickerStyle(WheelDatePickerStyle())
             .labelsHidden()
@@ -106,7 +106,18 @@ struct ChangeWakeUpModal: View {
                     .fontWeight(.regular)
                     .foregroundColor(Color("yellow"))
                     .onTapGesture {
-                        alarmViewModel.wakeUpTime = selectedDate
+                        alarmViewModel.setWakeUpTime(selectedDate)
+                        wakeUpTime = selectedDate
+//                        alarmViewModel.wakeUpTime = selectedDate
+                        alarmViewModel.wakeUpType = wakeUpType
+                        alarmViewModel.standUpDuration = standUpDuration
+                        alarmViewModel.walkSteps = walkSteps
+                        
+//                        alarmViewModel.connectivityProvider.sendAlarm(alarm: Alarm(wakeUpTime: alarmViewModel.wakeUpTime, wakeUpType: alarmViewModel.wakeUpType, standUpDuration: alarmViewModel.standUpDuration, walkSteps: alarmViewModel.walkSteps))
+                        print(alarmViewModel.formatTime(time: alarmViewModel.wakeUpTime ?? Date()))
+                        alarmViewModel.connectivityProvider.sendAlarm(wakeUpType: alarmViewModel.wakeUpType)
+                        
+                       
                         dismiss()
                     }
             }
@@ -116,7 +127,7 @@ struct ChangeWakeUpModal: View {
 
 struct ChangeWakeUpModal_Previews: PreviewProvider {
     static var previews: some View {
-        ChangeWakeUpModal(alarmViewModel: AlarmViewModel(), wakeUpType: .constant("Stand Up"), standUpDuration: .constant(10), walkSteps: .constant(10))
+        ChangeWakeUpModal(alarmViewModel: AlarmViewModel(connectivityProvider: ConnectionProvider()), wakeUpTime: .constant(Date()))
             .preferredColorScheme(.dark)
     }
 }

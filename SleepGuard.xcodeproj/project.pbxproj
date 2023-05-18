@@ -22,6 +22,12 @@
 		C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD12A165C4900B90841 /* WakeUpType.swift */; };
 		C5B7ABD52A166A2C00B90841 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B7ABD42A166A2C00B90841 /* WatchConnectivity.framework */; };
 		C5B7ABD72A166ABB00B90841 /* ConnectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD62A166ABB00B90841 /* ConnectionProvider.swift */; };
+		C5B7ABD92A16850D00B90841 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD82A16850D00B90841 /* Alarm.swift */; };
+		C5B7ABDB2A16994900B90841 /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */; };
+		C5B7ABDC2A16994E00B90841 /* ConnectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD62A166ABB00B90841 /* ConnectionProvider.swift */; };
+		C5B7ABDE2A169B7C00B90841 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABDD2A169B7C00B90841 /* HomeView.swift */; };
+		C5B7ABDF2A16A1B100B90841 /* WakeUpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD12A165C4900B90841 /* WakeUpType.swift */; };
+		C5B7ABE02A16A3E100B90841 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD82A16850D00B90841 /* Alarm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +71,8 @@
 		C5B7ABD12A165C4900B90841 /* WakeUpType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeUpType.swift; sourceTree = "<group>"; };
 		C5B7ABD42A166A2C00B90841 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		C5B7ABD62A166ABB00B90841 /* ConnectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionProvider.swift; sourceTree = "<group>"; };
+		C5B7ABD82A16850D00B90841 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
+		C5B7ABDD2A169B7C00B90841 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				C5387B9A2A159BB6000FCE46 /* SleepGuardApp.swift */,
+				C5B7ABDD2A169B7C00B90841 /* HomeView.swift */,
 				C5387B9C2A159BB6000FCE46 /* ContentView.swift */,
 				C5387B9E2A159BB6000FCE46 /* Assets.xcassets */,
 				C5387BA02A159BB6000FCE46 /* Preview Content */,
@@ -168,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				C5B7ABD12A165C4900B90841 /* WakeUpType.swift */,
+				C5B7ABD82A16850D00B90841 /* Alarm.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -283,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */,
+				C5B7ABD92A16850D00B90841 /* Alarm.swift in Sources */,
 				C5B7ABD72A166ABB00B90841 /* ConnectionProvider.swift in Sources */,
 				C5B7ABCA2A1628A900B90841 /* HomeView.swift in Sources */,
 				C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */,
@@ -297,6 +308,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5387B9D2A159BB6000FCE46 /* ContentView.swift in Sources */,
+				C5B7ABDB2A16994900B90841 /* AlarmViewModel.swift in Sources */,
+				C5B7ABDF2A16A1B100B90841 /* WakeUpType.swift in Sources */,
+				C5B7ABDC2A16994E00B90841 /* ConnectionProvider.swift in Sources */,
+				C5B7ABDE2A169B7C00B90841 /* HomeView.swift in Sources */,
+				C5B7ABE02A16A3E100B90841 /* Alarm.swift in Sources */,
 				C5387B9B2A159BB6000FCE46 /* SleepGuardApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

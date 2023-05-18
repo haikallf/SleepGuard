@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var alarmViewModel: AlarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
+    let connect = ConnectionProvider()
     var body: some View {
         NavigationView {
-            HomeView()
+            HomeView(alarmViewModel: alarmViewModel)
                 .preferredColorScheme(.dark)
         }
+//        .onAppear() {
+//            connect.connect()
+//        }
     }
 }
 

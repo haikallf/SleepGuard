@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var isChangeWakeUpModalShown: Bool = false
-    @StateObject var alarmViewModel: AlarmViewModel = AlarmViewModel()
+    @State var isChangeWakeUpModalShown: Bool
+    var alarmViewModel: AlarmViewModel
+    @State var wakeUpTime: Date?
+    
+    init(alarmViewModel: AlarmViewModel) {
+        self._isChangeWakeUpModalShown = State(initialValue: false)
+        self._wakeUpTime = State(initialValue: alarmViewModel.wakeUpTime)
+        self.alarmViewModel = alarmViewModel
+    }
     
     var body: some View {
         VStack {            
@@ -52,8 +59,14 @@ struct HomeView: View {
             
             HStack {
                 VStack (alignment: .leading) {
-                    Text(alarmViewModel.formatTime(time: alarmViewModel.wakeUpTime ?? Date()))
-                        .font(.system(size: 45))
+                    if (alarmViewModel.wakeUpTime != nil) {
+                        Text(alarmViewModel.formatTime(time: wakeUpTime!))
+                            .font(.system(size: 45))
+                    } else {
+                        Text("No Alarm")
+                            .font(.system(size: 45))
+                    }
+                    
                     
                     Text(alarmViewModel.formatDay())
                         .font(.subheadline)
@@ -74,7 +87,7 @@ struct HomeView: View {
                         .fontWeight(.semibold)
                         .sheet(isPresented: $isChangeWakeUpModalShown) {
                             NavigationView {
-                                ChangeWakeUpModal(alarmViewModel: alarmViewModel, wakeUpType: $alarmViewModel.wakeUpType, standUpDuration: $alarmViewModel.standUpDuration, walkSteps: $alarmViewModel.walkSteps)
+                                ChangeWakeUpModal(alarmViewModel: alarmViewModel, wakeUpTime: $wakeUpTime)
                             }
                         }
                 })
@@ -86,14 +99,17 @@ struct HomeView: View {
             
             Spacer()
         }
+        .onAppear() {
+            alarmViewModel.connectivityProvider.connect()
+        }
         .padding()
         .navigationTitle("SleepGuard")
     }  
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .preferredColorScheme(.dark)
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView(alarmViewModel: AlarmViewModel(connectivityProvider: ConnectionProvider()))
+//            .preferredColorScheme(.dark)
+//    }
+//}

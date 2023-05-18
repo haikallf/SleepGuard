@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    let alarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            NavigationLink(destination: HomeView(alarmViewModel: alarmViewModel)) {
+                Text("Go")
+            }
         }
         .padding()
     }
