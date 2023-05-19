@@ -10,19 +10,23 @@ import SwiftUI
 struct HomeView: View {
     var alarmViewModel: AlarmViewModel
     @State var currentAlarm: String?
-    init(alarmViewModel: AlarmViewModel){
-        self.alarmViewModel = alarmViewModel
-        // wrapped value for object
-        self._currentAlarm = State(initialValue: alarmViewModel.connectivityProvider.receivedAlarm)
-    }
+
     var body: some View {
         VStack {
-////            Text(alarmViewModel.formatTime(time: alarmViewModel.wakeUpTime!))
-//            Text(alarmViewModel.formatTime(time: currentDate ?? Date()))
-            Text(currentAlarm ?? "HOHOH")
+            
+            Text(currentAlarm ?? "No Alarm")
+            
+        }
+        .navigationTitle {
+          Text("Header")
+                .foregroundColor(.orange)
         }
         .onAppear() {
             alarmViewModel.connectivityProvider.connect()
+            currentAlarm = alarmViewModel.connectivityProvider.receivedAlarm
+        }
+        .onReceive(alarmViewModel.connectivityProvider.$receivedAlarm) { newData in
+            currentAlarm = newData
         }
     }
 }

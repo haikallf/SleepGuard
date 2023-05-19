@@ -13,7 +13,7 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
     
     @Published var wakeUpTime: Date = Date()
     var lastMessage: CFAbsoluteTime = 0
-    var receivedAlarm: String?
+    @Published var receivedAlarm: String?
     
     init(session: WCSession = .default) {
         self.session = session
@@ -67,7 +67,7 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
     }
     
     func sendWatchMessage(_ msgData: String) {
-        let currentTime = CFAbsoluteTimeGetCurrent()
+//        let currentTime = CFAbsoluteTimeGetCurrent()
         
 //        if lastMessage + 0.5 > currentTime {
 //            print("masuk")
@@ -76,7 +76,7 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
         
         if (session.isReachable) {
             print("Sending message to watch")
-            let message = ["alarm": "hai"]
+            let message = ["alarm": msgData]
             session.sendMessage(message, replyHandler: nil)
         } else {
             print("oh no")
@@ -90,7 +90,9 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
         
         if (message["alarm"] != nil) {
             let loadedData = message["alarm"]
-            self.receivedAlarm = loadedData as? String
+            DispatchQueue.main.async {
+                self.receivedAlarm = loadedData as? String
+            }
             print("received")
         }
     }

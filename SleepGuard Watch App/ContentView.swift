@@ -6,16 +6,14 @@
 //
 
 import SwiftUI
+import WatchKit
 
 struct ContentView: View {
     let alarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
     var body: some View {
-        NavigationView {
-            NavigationLink(destination: HomeView(alarmViewModel: alarmViewModel)) {
-                Text("Go")
-            }
+        NavigationStack {
+            HomeView(alarmViewModel: alarmViewModel)
         }
-        .padding()
     }
 }
 
