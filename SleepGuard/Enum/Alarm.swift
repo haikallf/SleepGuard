@@ -7,8 +7,8 @@
 
 import UIKit
 
-class Alarm: NSObject, ObservableObject, NSSecureCoding {
-    public static var supportsSecureCoding: Bool = true
+class Alarm: NSObject, ObservableObject, NSCoding {
+    let id = UUID()
     @Published var wakeUpTime: Date?
     
     @Published var wakeUpType: String = WakeUpType.StandUp.rawValue
@@ -17,7 +17,7 @@ class Alarm: NSObject, ObservableObject, NSSecureCoding {
     
     @Published var walkSteps: Int = 10
     
-    func initWithData(wakeUpTime: Date?, wakeUpType: String, standUpDuration: Int, walkSteps: Int) {
+    init (wakeUpTime: Date?, wakeUpType: String, standUpDuration: Int, walkSteps: Int) {
         self.wakeUpTime = wakeUpTime
         self.wakeUpType = wakeUpType
         self.standUpDuration = standUpDuration
@@ -31,9 +31,9 @@ class Alarm: NSObject, ObservableObject, NSSecureCoding {
               let walkSteps = coder.decodeObject(forKey: "walkSteps") as? Int
         else { return nil }
         
-        self.init()
+//        self.init()
         
-        self.initWithData(wakeUpTime: wakeUpTime as Date?, wakeUpType: wakeUpType as String, standUpDuration: standUpDuration as Int, walkSteps: walkSteps as Int)
+        self.init(wakeUpTime: wakeUpTime as Date?, wakeUpType: wakeUpType as String, standUpDuration: standUpDuration as Int, walkSteps: walkSteps as Int)
     }
     
     public func encode(with coder: NSCoder) {

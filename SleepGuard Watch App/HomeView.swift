@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     var alarmViewModel: AlarmViewModel
-    @Binding var receivedAlarm: String?
+    @State var currentWakeUpTime: Date?
 //    @State var currentAlarm: String?
     
 //    init(alarmViewModel: AlarmViewModel){
@@ -19,20 +19,29 @@ struct HomeView: View {
 //    }
     var body: some View {
         VStack {
-//            Text(alarmViewModel.formatTime(time: alarmViewModel.connectivityProvider.receivedAlarm!))
-//            Text(alarmViewModel.formatTime(time: currentDate ?? Date()))
-            Text(receivedAlarm ?? "Tetot")
-//            Text(currentAlarm ?? "HOHOH")
+            if (currentWakeUpTime != nil) {
+                Text(alarmViewModel.formatTime(time: currentWakeUpTime!))
+            } else {
+                Text("No Alarm")
+                    
+            }
+        }
+        .navigationTitle {
+          Text("Header")
+                .foregroundColor(.orange)
         }
         .onAppear() {
             alarmViewModel.connectivityProvider.connect()
-//            self.currentAlarm = alarmViewModel.connectivityProvider.receivedAlarm
+            currentWakeUpTime = alarmViewModel.connectivityProvider.wakeUpTime
+        }
+        .onReceive(alarmViewModel.connectivityProvider.$wakeUpTime) { newData in
+            currentWakeUpTime = newData
         }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(alarmViewModel: AlarmViewModel(connectivityProvider: ConnectionProvider()), receivedAlarm: .constant("tetet"))
+        HomeView(alarmViewModel: AlarmViewModel(connectivityProvider: ConnectionProvider()))
     }
 }

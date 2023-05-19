@@ -10,12 +10,9 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var alarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
     var body: some View {
-        NavigationView {
-            NavigationLink(destination: HomeView(alarmViewModel: alarmViewModel, receivedAlarm: .constant("HUEHUE"))) {
-                Text("Go")
-            }
+        NavigationStack {
+            HomeView(alarmViewModel: alarmViewModel)
         }
-        .padding()
     }
 }
 

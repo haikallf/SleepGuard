@@ -10,10 +10,16 @@ import WatchConnectivity
 
 class ConnectionProvider: NSObject, WCSessionDelegate {
     private let session: WCSession
-    
-    @Published var wakeUpTime: Date = Date()
+
     var lastMessage: CFAbsoluteTime = 0
-    @Published var receivedAlarm: Alarm?
+    
+    @Published var wakeUpTime: Date?
+    
+    @Published var wakeUpType: String?
+    
+    @Published var standUpDuration: Int?
+    
+    @Published var walkSteps: Int?
     
     init(session: WCSession = .default) {
         self.session = session
@@ -62,24 +68,36 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
     }
     #endif
     
-    func sendAlarm(wakeUpTime: Date, wakeUpType: String, standUpDuration: Int, walkSteps: Int) {
-        let alarm = Alarm()
-        let alarmObj = alarm.initWithData(wakeUpTime: wakeUpTime, wakeUpType: wakeUpType, standUpDuration: standUpDuration, walkSteps: walkSteps)
-        
-        NSKeyedArchiver.setClassName("Alarm", for: Alarm.self)
-        let alarmData = try! NSKeyedArchiver.archivedData(withRootObject: alarmObj, requiringSecureCoding: true)
-        
-        sendWatchMessage(alarmData)
+    func convertDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter.string(from: date)
     }
     
-    func sendWatchMessage(_ alarmData: Data) {
-        let currentTime = CFAbsoluteTimeGetCurrent()
+    func convertStringToDate(str: String) -> Date {
+        let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter.date(from: str)!
+    }
+    
+    func sendAlarm(wakeUpTime: Date, wakeUpType: String, standUpDuration: Int, walkSteps: Int) {
+        let strAlarmData = "\(convertDateToString(date: wakeUpTime))++$$++\(wakeUpType)++$$++\(standUpDuration)++$$++\(walkSteps)"
+        
+        sendWatchMessage(strAlarmData)
+    }
+    
+    func sendWatchMessage(_ alarmData: String) {
+//        let currentTime = CFAbsoluteTimeGetCurrent()
         
 //        if lastMessage + 0.5 > currentTime {
 //            print("masuk")
 //            return
 //        }
-        
+        print("3")
         if (session.isReachable) {
             print("Sending message to watch")
             let message = ["alarm": alarmData]
@@ -95,14 +113,16 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
         print("entered didreceive message")
         
         if (message["alarm"] != nil) {
-            let loadedData = message["alarm"]
+            let receivedAlarmString: String = message["alarm"] as! String
+            let receivedAlarmArr: [String] = receivedAlarmString.components(separatedBy: "++$$++")
+            print(receivedAlarmArr)
             
-            NSKeyedUnarchiver.setClass(Alarm.self, forClassName: "Alarm")
-            let unarchivedAlarmData = try! NSKeyedUnarchiver.unarchivedObject(ofClass: Alarm.self, from: loadedData as! Data)
-            self.receivedAlarm = unarchivedAlarmData
-            print("received: \(receivedAlarm?.wakeUpType ?? "default")")
+            DispatchQueue.main.async {
+                self.wakeUpTime = self.convertStringToDate(str: receivedAlarmArr[0])
+                self.wakeUpType = receivedAlarmArr[1]
+                self.standUpDuration = Int(receivedAlarmArr[2]) ?? 30
+                self.walkSteps = Int(receivedAlarmArr[3]) ?? 10
+            }
         }
     }
-    
-
 }
