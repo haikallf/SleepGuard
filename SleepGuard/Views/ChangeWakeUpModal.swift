@@ -115,7 +115,7 @@ struct ChangeWakeUpModal: View {
                         
 //                        alarmViewModel.connectivityProvider.sendAlarm(alarm: Alarm(wakeUpTime: alarmViewModel.wakeUpTime, wakeUpType: alarmViewModel.wakeUpType, standUpDuration: alarmViewModel.standUpDuration, walkSteps: alarmViewModel.walkSteps))
                         print(alarmViewModel.formatTime(time: alarmViewModel.wakeUpTime ?? Date()))
-                        alarmViewModel.connectivityProvider.sendAlarm(wakeUpType: alarmViewModel.wakeUpType)
+                        alarmViewModel.connectivityProvider.sendAlarm(wakeUpTime: alarmViewModel.wakeUpTime ?? Date(), wakeUpType: alarmViewModel.wakeUpType, standUpDuration: alarmViewModel.standUpDuration, walkSteps: alarmViewModel.walkSteps)
                         
                        
                         dismiss()

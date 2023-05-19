@@ -13,7 +13,7 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
     
     @Published var wakeUpTime: Date = Date()
     var lastMessage: CFAbsoluteTime = 0
-    var receivedAlarm: String?
+    @Published var receivedAlarm: Alarm?
     
     init(session: WCSession = .default) {
         self.session = session
@@ -62,11 +62,17 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
     }
     #endif
     
-    func sendAlarm(wakeUpType: String) {
-        sendWatchMessage(wakeUpType)
+    func sendAlarm(wakeUpTime: Date, wakeUpType: String, standUpDuration: Int, walkSteps: Int) {
+        let alarm = Alarm()
+        let alarmObj = alarm.initWithData(wakeUpTime: wakeUpTime, wakeUpType: wakeUpType, standUpDuration: standUpDuration, walkSteps: walkSteps)
+        
+        NSKeyedArchiver.setClassName("Alarm", for: Alarm.self)
+        let alarmData = try! NSKeyedArchiver.archivedData(withRootObject: alarmObj, requiringSecureCoding: true)
+        
+        sendWatchMessage(alarmData)
     }
     
-    func sendWatchMessage(_ msgData: String) {
+    func sendWatchMessage(_ alarmData: Data) {
         let currentTime = CFAbsoluteTimeGetCurrent()
         
 //        if lastMessage + 0.5 > currentTime {
@@ -76,7 +82,7 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
         
         if (session.isReachable) {
             print("Sending message to watch")
-            let message = ["alarm": "hai"]
+            let message = ["alarm": alarmData]
             session.sendMessage(message, replyHandler: nil)
         } else {
             print("oh no")
@@ -90,8 +96,11 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
         
         if (message["alarm"] != nil) {
             let loadedData = message["alarm"]
-            self.receivedAlarm = loadedData as? String
-            print("received")
+            
+            NSKeyedUnarchiver.setClass(Alarm.self, forClassName: "Alarm")
+            let unarchivedAlarmData = try! NSKeyedUnarchiver.unarchivedObject(ofClass: Alarm.self, from: loadedData as! Data)
+            self.receivedAlarm = unarchivedAlarmData
+            print("received: \(receivedAlarm?.wakeUpType ?? "default")")
         }
     }
     

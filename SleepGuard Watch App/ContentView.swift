@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    let alarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
+    @StateObject var alarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
     var body: some View {
         NavigationView {
-            NavigationLink(destination: HomeView(alarmViewModel: alarmViewModel)) {
+            NavigationLink(destination: HomeView(alarmViewModel: alarmViewModel, receivedAlarm: .constant("HUEHUE"))) {
                 Text("Go")
             }
         }
