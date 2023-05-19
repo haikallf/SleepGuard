@@ -28,6 +28,7 @@
 		C5B7ABDE2A169B7C00B90841 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABDD2A169B7C00B90841 /* HomeView.swift */; };
 		C5B7ABDF2A16A1B100B90841 /* WakeUpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD12A165C4900B90841 /* WakeUpType.swift */; };
 		C5B7ABE02A16A3E100B90841 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD82A16850D00B90841 /* Alarm.swift */; };
+		C5C3EBFC2A18167400E1537E /* CircularSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C3EBFB2A18167400E1537E /* CircularSliderView.swift */; };
 		DE3789FF2A177E4B00BE10CB /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		C5B7ABD62A166ABB00B90841 /* ConnectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionProvider.swift; sourceTree = "<group>"; };
 		C5B7ABD82A16850D00B90841 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		C5B7ABDD2A169B7C00B90841 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		C5C3EBFB2A18167400E1537E /* CircularSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSliderView.swift; sourceTree = "<group>"; };
 		DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +165,7 @@
 				C5387B8A2A159BB5000FCE46 /* ContentView.swift */,
 				C5B7ABC92A1628A900B90841 /* HomeView.swift */,
 				C5B7ABCE2A16482200B90841 /* ChangeWakeUpModal.swift */,
+				C5C3EBFB2A18167400E1537E /* CircularSliderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5C3EBFC2A18167400E1537E /* CircularSliderView.swift in Sources */,
 				C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */,
 				C5B7ABD92A16850D00B90841 /* Alarm.swift in Sources */,
 				C5B7ABD72A166ABB00B90841 /* ConnectionProvider.swift in Sources */,
