@@ -20,11 +20,50 @@ struct CircularSliderView: View {
     @State var hourDiff: Int = 12
     @State var minDIff: Int = 0
     
-    @State var showAlarm: Bool = false
+    @State var sleepTime: Date?
+    @State var wakeUpTime: Date?
+    @State var wakeUpType: String
+    @State var standUpDuration: Int
+    @State var walkSteps: Int
     
-    @State var wakeUpType: String = WakeUpType.StandUp.rawValue
-    @State var standUpDuration: Int = 30
-    @State var walkSteps: Int = 10
+    init(alarmViewModel: AlarmViewModel) {
+        self.alarmViewModel = alarmViewModel
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        let sleep = self.alarmViewModel.adjustTimeOnCurrentDate(hour: 22, minute: 0)
+        let wakeUp = self.alarmViewModel.adjustTimeOnCurrentDate(hour: 6, minute: 0)
+        
+        if UserDefaults.standard.object(forKey: "sleepTime") == nil {
+            _sleepTime = State(initialValue: sleep)
+        } else {
+            _sleepTime = State(initialValue: UserDefaults.standard.object(forKey: "sleepTime") as! Date)
+        }
+        
+        if UserDefaults.standard.object(forKey: "wakeUpTime") == nil {
+            _wakeUpTime = State(initialValue: wakeUp)
+        } else {
+            _wakeUpTime = State(initialValue: UserDefaults.standard.object(forKey: "wakeUpTime") as! Date)
+        }
+        
+        if UserDefaults.standard.object(forKey: "wakeUpType") == nil {
+            _wakeUpType = State(initialValue: (UserDefaults.standard.string(forKey: "wakeUpType") ?? "Stand Up"))
+        } else {
+            _wakeUpType = State(initialValue: UserDefaults.standard.string(forKey: "wakeUpType")!)
+        }
+
+        if UserDefaults.standard.object(forKey: "standUpDuration") == nil {
+            _standUpDuration = State(initialValue: 60)
+        } else {
+            _standUpDuration = State(initialValue: UserDefaults.standard.integer(forKey: "walkSteps"))
+        }
+
+        if UserDefaults.standard.object(forKey: "walkSteps") == nil {
+            _walkSteps = State(initialValue: 20)
+        } else {
+            _walkSteps = State(initialValue: UserDefaults.standard.integer(forKey: "walkSteps"))
+        }
+    }
     
     let wakeUpTypes: [WakeUpType] = WakeUpType.allCases
     
@@ -43,7 +82,7 @@ struct CircularSliderView: View {
                             }
                             .font(.callout)
                             
-                            Text(getTime(angle: startAngle).formatted(date: .omitted, time: .shortened))
+                            Text(getTime(angle: startAngle, isStartAngle: 1).formatted(date: .omitted, time: .shortened))
                                 .font(.title2.bold())
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -58,7 +97,7 @@ struct CircularSliderView: View {
                             }
                             .font(.callout)
                             
-                            Text(getTime(angle: endAngle).formatted(date: .omitted, time: .shortened))
+                            Text(getTime(angle: endAngle, isStartAngle: -1).formatted(date: .omitted, time: .shortened))
                                 .font(.title2.bold())
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -85,13 +124,6 @@ struct CircularSliderView: View {
                     .font(.title2.bold())
                     .padding(.top)
                 
-//                HStack {
-//                    Toggle("Alarm", isOn: $showAlarm)
-//                }
-//                .padding()
-//                .background(Color("gray"))
-//                .cornerRadius(10)
-                
                 VStack {
                     HStack {
                         Text("Awake Confirmation")
@@ -110,7 +142,7 @@ struct CircularSliderView: View {
                     HStack {
                         Text("\(alarmViewModel.wakeUpType == WakeUpType.StandUp.rawValue ? "Duration" : "Steps")")
                         Spacer()
-                        if (alarmViewModel.wakeUpType == WakeUpType.StandUp.rawValue) {
+                        if (wakeUpType == WakeUpType.StandUp.rawValue) {
                             Picker("", selection: $standUpDuration) {
                                 ForEach(1..<6, id: \.self) {elmt in
                                     Text("\(elmt * 30)s")
@@ -133,7 +165,20 @@ struct CircularSliderView: View {
                 .cornerRadius(10)
                 
                 Button {
+                    sleepTime = getTime(angle: startAngle)
+                    wakeUpTime = getTime(angle: endAngle)
                     
+                    alarmViewModel.wakeUpTime = wakeUpTime
+                    alarmViewModel.wakeUpType = wakeUpType
+                    alarmViewModel.standUpDuration = standUpDuration
+                    alarmViewModel.walkSteps = walkSteps
+                    
+                    alarmViewModel.connectivityProvider.sendAlarm(wakeUpTime: alarmViewModel.wakeUpTime ?? Date(), wakeUpType: alarmViewModel.wakeUpType, standUpDuration: alarmViewModel.standUpDuration, walkSteps: alarmViewModel.walkSteps)
+                    print("sleepTime: \(getTime(angle: startAngle))")
+                    print("wakeUpTime: \(wakeUpTime)")
+                    print("wakeUpType: \(wakeUpType)")
+                    print("standUpDuration: \(standUpDuration)")
+                    print("walkSteps: \(walkSteps)")
                 } label: {
                     Text("Set Alarm")
                         .padding()
@@ -143,6 +188,34 @@ struct CircularSliderView: View {
                 .padding(.top)
                 
                 Spacer()
+            }
+            .onAppear() {
+//                let formatter = DateFormatter()
+//                formatter.dateFormat = "HH:mm:ss"
+//                let sleep = formatter.date(from: "00:00:00")
+//                let wakeUp = formatter.date(from: "00:08:00")
+//                alarmViewModel.connectivityProvider.connect()
+//
+//                if UserDefaults.standard.object(forKey: "sleepTime") == nil {
+//                    sleepTime = sleep
+//                }
+//
+//                if UserDefaults.standard.object(forKey: "wakeUpTime") == nil {
+//                    wakeUpTime = wakeUp
+//                }
+//
+//                if UserDefaults.standard.object(forKey: "wakeUpType") == nil {
+//                    wakeUpType = "Walk"
+//                }
+//
+//                if UserDefaults.standard.object(forKey: "standUpDuration") == nil {
+//                    standUpDuration = 60
+//                }
+//
+//                if UserDefaults.standard.object(forKey: "walkSteps") == nil {
+//                    walkSteps = 10
+//                }
+        
             }
             .padding()
             .navigationTitle("SleepGuard")
@@ -268,8 +341,10 @@ struct CircularSliderView: View {
         }
     }
     
+    
+    
     // Get time based on drag
-    func getTime(angle: Double) -> Date {
+    func getTime(angle: Double, isStartAngle: Int = 0) -> Date {
         // 360 / 24 = 15
         // 24 = hours
         let progress = angle / 15
@@ -285,8 +360,17 @@ struct CircularSliderView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
         
+//        if let date = formatter.date(from: "\(hour):\(Int(minute)):00") {
+////            if isStartAngle == 1 {
+////                sleepTime = date
+////            } else if isStartAngle == -1 {
+////                wakeUpTime = date
+////            }
+//            return date
+//        }
+        
         if let date = formatter.date(from: "\(hour):\(Int(minute)):00") {
-            return date
+            return alarmViewModel.adjustTimeOnCurrentDate(hour: hour, minute: Int(minute))
         }
         
         return .init()

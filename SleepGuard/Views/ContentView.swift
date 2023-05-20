@@ -19,9 +19,9 @@ struct ContentView: View {
                     .preferredColorScheme(.dark)
             }
         }
-//        .onAppear() {
-//            connect.connect()
-//        }
+        .onAppear() {
+            print(UserDefaults.standard.object(forKey: "wakeUpType") == nil)
+        }
     }
 }
 

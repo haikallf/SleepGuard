@@ -33,6 +33,26 @@ class AlarmViewModel: NSObject, ObservableObject {
         self.wakeUpTime = wakeUpTime
     }
     
+    func adjustTimeOnCurrentDate(hour: Int, minute: Int) -> Date {
+        var existingDate = Date()
+
+        // Desired time components
+        var timeComponents = DateComponents()
+        timeComponents.timeZone = TimeZone(abbreviation: "ICT")
+        timeComponents.hour = hour
+        timeComponents.minute = minute
+        timeComponents.second = 0
+
+        // Create a calendar instance
+        let calendar = Calendar.current
+
+        // Set the time on the existing date
+        existingDate = calendar.date(bySettingHour: timeComponents.hour ?? 0, minute: timeComponents.minute ?? 0, second: timeComponents.second ?? 0, of: existingDate) ?? existingDate
+        
+        
+        return existingDate
+    }
+    
     func formatTime(time: Date) -> String {
         let dateFormatterTemplate = DateFormatter()
         dateFormatterTemplate.setLocalizedDateFormatFromTemplate("HH.mm")
