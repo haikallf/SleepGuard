@@ -38,7 +38,7 @@ struct CircularSliderView: View {
                                 Text("Bedtime")
                                     .foregroundColor(.white)
                             } icon: {
-                                Image(systemName: "moon.fill")
+                                Image(systemName: "bed.double.fill")
                                     .foregroundColor(Color("yellow"))
                             }
                             .font(.callout)
@@ -53,7 +53,7 @@ struct CircularSliderView: View {
                                 Text("Wake Up")
                                     .foregroundColor(.white)
                             } icon: {
-                                Image(systemName: "alarm")
+                                Image(systemName: "alarm.waves.left.and.right.fill")
                                     .foregroundColor(Color("yellow"))
                             }
                             .font(.callout)
@@ -80,17 +80,17 @@ struct CircularSliderView: View {
                 .padding()
                 .background(Color("gray"), in: RoundedRectangle(cornerRadius: 10))
                 
-                Text("Alarm Options")
+                Text("Wake Up Options")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.title2.bold())
                     .padding(.top)
                 
-                HStack {
-                    Toggle("Alarm", isOn: $showAlarm)
-                }
-                .padding()
-                .background(Color("gray"))
-                .cornerRadius(10)
+//                HStack {
+//                    Toggle("Alarm", isOn: $showAlarm)
+//                }
+//                .padding()
+//                .background(Color("gray"))
+//                .cornerRadius(10)
                 
                 VStack {
                     HStack {
@@ -127,10 +127,20 @@ struct CircularSliderView: View {
                         }
                     }
                 }
-                .padding()
+                .padding([.vertical, .leading])
                 .foregroundColor(.white)
                 .background(Color("gray"))
                 .cornerRadius(10)
+                
+                Button {
+                    
+                } label: {
+                    Text("Set Alarm")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color("gray"), in: RoundedRectangle(cornerRadius: 10))
+                }
+                .padding(.top)
                 
                 Spacer()
             }
@@ -188,10 +198,12 @@ struct CircularSliderView: View {
                     .rotationEffect(.init(degrees: -90))
                     .rotationEffect(.init(degrees: reverseRotation))
                 
-                Image(systemName: "moon.fill")
+                Image(systemName: "bed.double.fill")
+                    .resizable()
                     .font(.callout)
                     .foregroundColor(getTimeDifference().0 >= 8 ? Color("tertiaryGray") : Color("brown"))
-                    .frame(width: 30, height: 30)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 15)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -startAngle))
                     .offset(x: width / 2)
@@ -204,10 +216,12 @@ struct CircularSliderView: View {
                     )
                     .rotationEffect(.init(degrees: -90))
                 
-                Image(systemName: "alarm")
+                Image(systemName: "alarm.waves.left.and.right.fill")
+                    .resizable()
                     .font(.callout)
                     .foregroundColor(getTimeDifference().0 >= 8 ? Color("tertiaryGray") : Color("brown"))
-                    .frame(width: 30, height: 30)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 15)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -endAngle))
                     .offset(x: width / 2)
