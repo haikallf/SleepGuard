@@ -175,7 +175,7 @@ struct CircularSliderView: View {
                     
                     alarmViewModel.connectivityProvider.sendAlarm(wakeUpTime: alarmViewModel.wakeUpTime ?? Date(), wakeUpType: alarmViewModel.wakeUpType, standUpDuration: alarmViewModel.standUpDuration, walkSteps: alarmViewModel.walkSteps)
                     print("sleepTime: \(getTime(angle: startAngle))")
-                    print("wakeUpTime: \(wakeUpTime)")
+                    print("wakeUpTime: \(wakeUpTime ?? Date())")
                     print("wakeUpType: \(wakeUpType)")
                     print("standUpDuration: \(standUpDuration)")
                     print("walkSteps: \(walkSteps)")

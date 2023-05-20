@@ -19,23 +19,44 @@ struct HomeView: View {
 //    }
     var body: some View {
         VStack {
-            if (currentWakeUpTime != nil) {
-                Text(alarmViewModel.formatTime(time: currentWakeUpTime!))
-            } else {
-                Text("No Alarm")
+            VStack (alignment: .leading) {
+                HStack {
+                    Image(systemName: "bed.double.fill")
+                    Text("Sleep | Wake Up")
+                }
+                .foregroundColor(.white.opacity(0.7))
+                
+                VStack (alignment: .leading) {
+                    Group {
+                        if (currentWakeUpTime != nil) {
+                            Text(alarmViewModel.formatTime(time: currentWakeUpTime!))
+                        } else {
+                            Text("No Alarm")
+                        }
+                    }
+                    .font(.title2)
                     
+                    Text(alarmViewModel.formatDay())
+                        .font(.subheadline)
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.white.opacity(0.1), in: RoundedRectangle(cornerRadius: 10))
             }
+            
         }
         .navigationTitle {
-          Text("Header")
+          Text("SleepGuard")
                 .foregroundColor(.orange)
         }
         .onAppear() {
             alarmViewModel.connectivityProvider.connect()
             currentWakeUpTime = alarmViewModel.connectivityProvider.wakeUpTime
+            alarmViewModel.wakeUpTime = alarmViewModel.connectivityProvider.wakeUpTime
         }
         .onReceive(alarmViewModel.connectivityProvider.$wakeUpTime) { newData in
             currentWakeUpTime = newData
+            alarmViewModel.wakeUpTime = newData
         }
     }
 }

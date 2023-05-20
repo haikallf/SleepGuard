@@ -49,7 +49,6 @@ class AlarmViewModel: NSObject, ObservableObject {
         // Set the time on the existing date
         existingDate = calendar.date(bySettingHour: timeComponents.hour ?? 0, minute: timeComponents.minute ?? 0, second: timeComponents.second ?? 0, of: existingDate) ?? existingDate
         
-        
         return existingDate
     }
     
