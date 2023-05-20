@@ -8,70 +8,135 @@
 import SwiftUI
 
 struct CircularSliderView: View {
+    var alarmViewModel: AlarmViewModel
+    @State var shouldScroll: Bool = true
+    
     @State var startAngle: Double = 0
     @State var endAngle: Double = 180
     
     @State var startProgress: CGFloat = 0
     @State var endProgress: CGFloat = 0.5
     
+    @State var hourDiff: Int = 12
+    @State var minDIff: Int = 0
+    
+    @State var showAlarm: Bool = false
+    
+    @State var wakeUpType: String = WakeUpType.StandUp.rawValue
+    @State var standUpDuration: Int = 30
+    @State var walkSteps: Int = 10
+    
+    let wakeUpTypes: [WakeUpType] = WakeUpType.allCases
+    
     var body: some View {
-        VStack {
-            HStack {
-                VStack(alignment: .leading, spacing: 8) {
-                    
-                }
-            }
-            
-            SleepTimeSlider()
-            
-            Button {
-                
-            } label: {
-                Text("Start Sleep")
-                    .foregroundColor(.white)
-                    .padding(.vertical)
-                    .padding(.horizontal, 40)
-                    .background(.blue, in: Capsule())
-            }
-            .padding(.top, 45)
-            
-            HStack(spacing: 25) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Label {
-                        Text("Bedtime")
-                            .foregroundColor(.black)
-                    } icon: {
-                        Image(systemName: "moon.fill")
-                            .foregroundColor(.blue)
+        ScrollView {
+            VStack {
+                VStack(spacing: 25) {
+                    HStack(spacing: 25) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label {
+                                Text("Bedtime")
+                                    .foregroundColor(.white)
+                            } icon: {
+                                Image(systemName: "moon.fill")
+                                    .foregroundColor(Color("yellow"))
+                            }
+                            .font(.callout)
+                            
+                            Text(getTime(angle: startAngle).formatted(date: .omitted, time: .shortened))
+                                .font(.title2.bold())
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label {
+                                Text("Wake Up")
+                                    .foregroundColor(.white)
+                            } icon: {
+                                Image(systemName: "alarm")
+                                    .foregroundColor(Color("yellow"))
+                            }
+                            .font(.callout)
+                            
+                            Text(getTime(angle: endAngle).formatted(date: .omitted, time: .shortened))
+                                .font(.title2.bold())
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
                     }
-                    .font(.callout)
                     
-                    Text(getTime(angle: startAngle).formatted(date: .omitted, time: .shortened))
-                        .font(.title2.bold())
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Label {
-                        Text("Wake Up")
-                            .foregroundColor(.black)
-                    } icon: {
-                        Image(systemName: "alarm")
-                            .foregroundColor(.blue)
+                    SleepTimeSlider()
+                    
+                    VStack {
+                        Text("\(getTimeDifference().0)hr \(getTimeDifference().1)min")
+                            .font(.title3.bold())
+                        
+                        HStack {
+                            Text(getTimeDifference().0 >= 8 ? "This schedule meets your sleep goals" : "Below sleep goals")
+                                .foregroundColor(getTimeDifference().0 >= 8 ? .white.opacity(0.5) : Color("yellow"))
+                                .font(.subheadline)
+                        }
                     }
-                    .font(.callout)
-                    
-                    Text(getTime(angle: endAngle).formatted(date: .omitted, time: .shortened))
-                        .font(.title2.bold())
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
+                .padding()
+                .background(Color("gray"), in: RoundedRectangle(cornerRadius: 10))
+                
+                Text("Alarm Options")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.title2.bold())
+                    .padding(.top)
+                
+                HStack {
+                    Toggle("Alarm", isOn: $showAlarm)
+                }
+                .padding()
+                .background(Color("gray"))
+                .cornerRadius(10)
+                
+                VStack {
+                    HStack {
+                        Text("Awake Confirmation")
+                        Spacer()
+                        Picker("", selection: $wakeUpType) {
+                            ForEach(wakeUpTypes, id: \.self) {elmt in
+                                Text(elmt.rawValue)
+                                    .tag(elmt.rawValue)
+                            }
+                        }
+                        .foregroundColor(.white)
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text("\(alarmViewModel.wakeUpType == WakeUpType.StandUp.rawValue ? "Duration" : "Steps")")
+                        Spacer()
+                        if (alarmViewModel.wakeUpType == WakeUpType.StandUp.rawValue) {
+                            Picker("", selection: $standUpDuration) {
+                                ForEach(1..<6, id: \.self) {elmt in
+                                    Text("\(elmt * 30)s")
+                                        .tag(elmt * 30)
+                                }
+                            }
+                        } else {
+                            Picker("", selection: $walkSteps) {
+                                ForEach(1..<6, id: \.self) {elmt in
+                                    Text("\(elmt * 10)")
+                                        .tag(elmt * 10)
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding()
+                .foregroundColor(.white)
+                .background(Color("gray"))
+                .cornerRadius(10)
+                
+                Spacer()
             }
             .padding()
-            .background(.black.opacity(0.06), in: RoundedRectangle(cornerRadius: 15))
-            .padding(.top, 25)
+            .navigationTitle("SleepGuard")
         }
-        .padding()
-        .frame(maxHeight: .infinity, alignment: .top)
     }
     
     @ViewBuilder
@@ -82,45 +147,53 @@ struct CircularSliderView: View {
             ZStack {
                 // Clock
                 ZStack {
-                    ForEach(1...60, id: \.self) { index in
+                    ForEach(1...120, id: \.self) { index in
                         Rectangle()
-                            .fill(index % 5 == 0 ? .black : .gray)
-                            .frame(width: 2, height: index % 5 == 0 ? 10 : 5)
+                            .fill(index % 5 == 0 ? .gray : .gray)
+                            .frame(width: 2, height: index % 5 == 0 ? 8 : 2)
                             .offset(y: (width - 60) / 2)
-                            .rotationEffect(.init(degrees: Double(index) * 6))
+                            .rotationEffect(.init(degrees: Double(index) * 3))
                     }
                     
                     // Clock Text
-                    let texts = [6, 9, 12, 3]
+                    let texts = [12, 14, 16, 18, 20, 22, 0, 2, 4, 6, 8, 10]
                     ForEach(texts.indices, id: \.self) { index in
                         Text("\(texts[index])")
-                            .font(.caption.bold())
-                            .foregroundColor(.black)
-                            .rotationEffect(.init(degrees: Double(index) * -90))
+                            .font(.callout.bold())
+                            .foregroundColor(.gray)
+                            .rotationEffect(.init(degrees: Double(index) * -30))
                             .offset(y: (width - 90) / 2)
-                            .rotationEffect(.init(degrees: Double(index) * 90))
+                            // 360 / 12 = 30
+                            .rotationEffect(.init(degrees: Double(index) * 30))
                     }
+                    
+                    Image.init(systemName: "sun.max.fill")
+                        .foregroundColor(.yellow)
+                        .offset(y: (width - 150) / 2)
+                    
+                    Image.init(systemName: "sparkles")
+                        .foregroundColor(Color("lightBlue"))
+                        .offset(y: (width - 350) / 2)
                 }
                 
                 // Slider
                 Circle()
-                    .stroke(.black.opacity(0.06), lineWidth: 40)
+                    .stroke(.black, lineWidth: 40)
                 
                 // Allow reverse slide
                 let reverseRotation = (startProgress > endProgress) ? -Double((1 - startProgress) * 360) : 0
                 Circle()
                     .trim(from: startProgress > endProgress ? 0 : startProgress, to: endProgress + (-reverseRotation / 360))
-                    .stroke(.blue, style: StrokeStyle(lineWidth: 40, lineCap: .round, lineJoin: .round))
+                    .stroke(getTimeDifference().0 >= 8 ? Color("gray") : Color("yellow") , style: StrokeStyle(lineWidth: 25, lineCap: .round, lineJoin: .round))
                     .rotationEffect(.init(degrees: -90))
                     .rotationEffect(.init(degrees: reverseRotation))
                 
                 Image(systemName: "moon.fill")
                     .font(.callout)
-                    .foregroundColor(.blue)
+                    .foregroundColor(getTimeDifference().0 >= 8 ? Color("tertiaryGray") : Color("brown"))
                     .frame(width: 30, height: 30)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -startAngle))
-                    .background(.white, in: Circle())
                     .offset(x: width / 2)
                     .rotationEffect(.init(degrees: startAngle))
                     .gesture(
@@ -133,11 +206,10 @@ struct CircularSliderView: View {
                 
                 Image(systemName: "alarm")
                     .font(.callout)
-                    .foregroundColor(.blue)
+                    .foregroundColor(getTimeDifference().0 >= 8 ? Color("tertiaryGray") : Color("brown"))
                     .frame(width: 30, height: 30)
                     .rotationEffect(.init(degrees: 90))
                     .rotationEffect(.init(degrees: -endAngle))
-                    .background(.white, in: Circle())
                     .offset(x: width / 2)
                     .rotationEffect(.init(degrees: endAngle))
                     .gesture(
@@ -147,18 +219,14 @@ struct CircularSliderView: View {
                             })
                     )
                     .rotationEffect(.init(degrees: -90))
-                
-                VStack(spacing: 6) {
-                    Text("\(getTimeDifference().0)hr")
-                        .font(.largeTitle.bold())
-                    
-                    Text("\(getTimeDifference().1)min")
-                        .foregroundColor(.gray)
-                }
-                .scaleEffect(1.1)
             }
         }
         .frame(width: screenBounds().width / 1.6, height: screenBounds().width / 1.6)
+        .padding(.bottom)
+    }
+    
+    private var axes: Axis.Set {
+            return shouldScroll ? .horizontal : []
     }
     
     func onDrag(value: DragGesture.Value, fromSlider: Bool = false) {
@@ -188,18 +256,20 @@ struct CircularSliderView: View {
     
     // Get time based on drag
     func getTime(angle: Double) -> Date {
-        let progress = angle / 30
+        // 360 / 24 = 15
+        // 24 = hours
+        let progress = angle / 15
         
         let hour = Int(progress)
         // 12 => 60/12 = 5 => every 5m
-        let remainder = (progress.truncatingRemainder(dividingBy: 1) * 12).rounded()
+        let remainder = (progress.truncatingRemainder(dividingBy: 1) * 24).rounded()
         
         var minute = remainder * 5
         // avoid perfect time
         minute = (minute > 55 ? 55 : minute)
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm:ss"
+        formatter.dateFormat = "HH:mm:ss"
         
         if let date = formatter.date(from: "\(hour):\(Int(minute)):00") {
             return date
@@ -211,14 +281,16 @@ struct CircularSliderView: View {
     func getTimeDifference() -> (Int, Int) {
         let calendar = Calendar.current
         let result = calendar.dateComponents([.hour, .minute], from: getTime(angle: startAngle), to: getTime(angle: endAngle))
+        let hour = result.hour! < 0 ? result.hour! + 24 : result.hour!
+        let minute = result.minute! < 0 ? result.minute! + 60 : result.minute!
         
-        return (result.hour ?? 0, result.minute ?? 0)
+        return (hour, minute)
     }
 }
 
 struct CircularSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        CircularSliderView()
+        CircularSliderView(alarmViewModel: AlarmViewModel(connectivityProvider: ConnectionProvider()))
     }
 }
 

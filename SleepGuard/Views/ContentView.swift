@@ -12,8 +12,12 @@ struct ContentView: View {
     let connect = ConnectionProvider()
     var body: some View {
         NavigationView {
-            HomeView(alarmViewModel: alarmViewModel)
-                .preferredColorScheme(.dark)
+            ZStack {
+                Color("darkGray")
+                    .ignoresSafeArea()
+                CircularSliderView(alarmViewModel: alarmViewModel)
+                    .preferredColorScheme(.dark)
+            }
         }
 //        .onAppear() {
 //            connect.connect()
