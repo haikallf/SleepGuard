@@ -6,27 +6,21 @@
 //
 
 import UIKit
+import UserNotifications
 
 class AlarmViewModel: NSObject, ObservableObject {
     private(set) var connectivityProvider: ConnectionProvider
     
     @Published var wakeUpTime: Date?
     
-    @Published var wakeUpType: String
+    @Published var heartRateGoal: Double
     
-    @Published var standUpDuration: Int
-    
-    @Published var walkSteps: Int
-    
-//    @Published var alarm: Alarm
+    @Published var alarms: [Alarm] = []
     
     init(connectivityProvider: ConnectionProvider) {
-        self.wakeUpType = WakeUpType.StandUp.rawValue
-        self.standUpDuration = 30
-        self.walkSteps = 10
+        self.heartRateGoal = 100
         self.connectivityProvider = connectivityProvider
         self.connectivityProvider.connect()
-//        self.alarm = Alarm(wakeUpTime : nil, wakeUpType: WakeUpType.StandUp.rawValue, standUpDuration: 30, walkSteps: 10)
     }
     
     func setWakeUpTime(_ wakeUpTime: Date) {
@@ -94,4 +88,52 @@ class AlarmViewModel: NSObject, ObservableObject {
         
         return alarmMessage
     }
+    
+    func askNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if success {
+                print ("Access granted!")
+            } else if let error = error {
+                print (error.localizedDescription)
+            }
+        }
+    }
+    
+    func sendNotification(date: Date, type: String, timeInterval: Double = 10, title: String, body: String) {
+        var trigger: UNNotificationTrigger?
+        
+        // Create a trigger (either from date or time based)
+        if type == "date" {
+            let dateComponents = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: date)
+            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        } else if type == "time" {
+            trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        }
+        
+        // Customise the content
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = UNNotificationSound.default
+        
+        // Create the request
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request)
+    }
+    
+//    func showFullScreenNotification() {
+//        let content = UNMutableNotificationContent()
+//        content.title = "Full-Screen Notification"
+//        content.body = "This is a full-screen notification"
+//        content.categoryIdentifier = "customNotificationCategory"
+//
+//        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+//        UNUserNotificationCenter.current().add(request) { error in
+//            if let error = error {
+//                print("Error showing notification: \(error.localizedDescription)")
+//            } else {
+//                print("Notification shown successfully")
+//            }
+//        }
+//    }
 }

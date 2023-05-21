@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CircularSliderView: View {
     var alarmViewModel: AlarmViewModel
+    var healthStore: HealthStore
+    @StateObject var heartRateViewModel: HeartRateViewModel = HeartRateViewModel()
+    
     @State var shouldScroll: Bool = true
     
     @State var startAngle: Double = 0
@@ -22,12 +25,11 @@ struct CircularSliderView: View {
     
     @State var sleepTime: Date?
     @State var wakeUpTime: Date?
-    @State var wakeUpType: String
-    @State var standUpDuration: Int
-    @State var walkSteps: Int
+    @State var heartRateGoal: Double
     
-    init(alarmViewModel: AlarmViewModel) {
+    init(alarmViewModel: AlarmViewModel, healthStore: HealthStore) {
         self.alarmViewModel = alarmViewModel
+        self.healthStore = healthStore
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
@@ -45,30 +47,18 @@ struct CircularSliderView: View {
         } else {
             _wakeUpTime = State(initialValue: UserDefaults.standard.object(forKey: "wakeUpTime") as! Date)
         }
-        
-        if UserDefaults.standard.object(forKey: "wakeUpType") == nil {
-            _wakeUpType = State(initialValue: (UserDefaults.standard.string(forKey: "wakeUpType") ?? "Stand Up"))
-        } else {
-            _wakeUpType = State(initialValue: UserDefaults.standard.string(forKey: "wakeUpType")!)
-        }
 
-        if UserDefaults.standard.object(forKey: "standUpDuration") == nil {
-            _standUpDuration = State(initialValue: 60)
+        if UserDefaults.standard.object(forKey: "heartRateGoal") == nil {
+            _heartRateGoal = State(initialValue: 60)
         } else {
-            _standUpDuration = State(initialValue: UserDefaults.standard.integer(forKey: "walkSteps"))
-        }
-
-        if UserDefaults.standard.object(forKey: "walkSteps") == nil {
-            _walkSteps = State(initialValue: 20)
-        } else {
-            _walkSteps = State(initialValue: UserDefaults.standard.integer(forKey: "walkSteps"))
+            _heartRateGoal = State(initialValue: UserDefaults.standard.double(forKey: "heartRateGoal"))
         }
     }
     
     let wakeUpTypes: [WakeUpType] = WakeUpType.allCases
     
     var body: some View {
-        ScrollView {
+        VStack {
             VStack {
                 VStack(spacing: 25) {
                     HStack(spacing: 25) {
@@ -86,6 +76,12 @@ struct CircularSliderView: View {
                                 .font(.title2.bold())
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
+                        
+                        VStack {
+                            Text("Heart Rate:")
+                            Text("\(heartRateViewModel.latestHeartRate) bpm")
+                        }
+                        
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Label {
@@ -126,35 +122,12 @@ struct CircularSliderView: View {
                 
                 VStack {
                     HStack {
-                        Text("Awake Confirmation")
+                        Text("Heart Rate Goal")
                         Spacer()
-                        Picker("", selection: $wakeUpType) {
-                            ForEach(wakeUpTypes, id: \.self) {elmt in
-                                Text(elmt.rawValue)
-                                    .tag(elmt.rawValue)
-                            }
-                        }
-                        .foregroundColor(.white)
-                    }
-                    
-                    Divider()
-                    
-                    HStack {
-                        Text("\(alarmViewModel.wakeUpType == WakeUpType.StandUp.rawValue ? "Duration" : "Steps")")
-                        Spacer()
-                        if (wakeUpType == WakeUpType.StandUp.rawValue) {
-                            Picker("", selection: $standUpDuration) {
-                                ForEach(1..<6, id: \.self) {elmt in
-                                    Text("\(elmt * 30)s")
-                                        .tag(elmt * 30)
-                                }
-                            }
-                        } else {
-                            Picker("", selection: $walkSteps) {
-                                ForEach(1..<6, id: \.self) {elmt in
-                                    Text("\(elmt * 10)")
-                                        .tag(elmt * 10)
-                                }
+                        Picker("", selection: $heartRateGoal) {
+                            ForEach(0...5, id: \.self) {elmt in
+                                Text("\((elmt * 10) + 100)bpm")
+                                    .tag((elmt * 10) + 100)
                             }
                         }
                     }
@@ -165,20 +138,21 @@ struct CircularSliderView: View {
                 .cornerRadius(10)
                 
                 Button {
+//                    healthStore.fetchLatestHeartRate()
+//                    heartRateViewModel.startHeartRateDetection()
+//                    alarmViewModel.sendNotification(date: Date() + 60, type: "date", title: "SleepGuard", body: "Bangun Weh")
+                    
+                    alarmViewModel.showFullScreenNotification()
                     sleepTime = getTime(angle: startAngle)
                     wakeUpTime = getTime(angle: endAngle)
                     
                     alarmViewModel.wakeUpTime = wakeUpTime
-                    alarmViewModel.wakeUpType = wakeUpType
-                    alarmViewModel.standUpDuration = standUpDuration
-                    alarmViewModel.walkSteps = walkSteps
+                    alarmViewModel.heartRateGoal = heartRateGoal
                     
-                    alarmViewModel.connectivityProvider.sendAlarm(wakeUpTime: alarmViewModel.wakeUpTime ?? Date(), wakeUpType: alarmViewModel.wakeUpType, standUpDuration: alarmViewModel.standUpDuration, walkSteps: alarmViewModel.walkSteps)
+                    alarmViewModel.connectivityProvider.sendAlarm(wakeUpTime: alarmViewModel.wakeUpTime ?? Date(), heartRateGoal: alarmViewModel.heartRateGoal)
                     print("sleepTime: \(getTime(angle: startAngle))")
                     print("wakeUpTime: \(wakeUpTime ?? Date())")
-                    print("wakeUpType: \(wakeUpType)")
-                    print("standUpDuration: \(standUpDuration)")
-                    print("walkSteps: \(walkSteps)")
+                    print("heartRateGoal: \(heartRateGoal)")
                 } label: {
                     Text("Set Alarm")
                         .padding()
@@ -190,32 +164,7 @@ struct CircularSliderView: View {
                 Spacer()
             }
             .onAppear() {
-//                let formatter = DateFormatter()
-//                formatter.dateFormat = "HH:mm:ss"
-//                let sleep = formatter.date(from: "00:00:00")
-//                let wakeUp = formatter.date(from: "00:08:00")
-//                alarmViewModel.connectivityProvider.connect()
-//
-//                if UserDefaults.standard.object(forKey: "sleepTime") == nil {
-//                    sleepTime = sleep
-//                }
-//
-//                if UserDefaults.standard.object(forKey: "wakeUpTime") == nil {
-//                    wakeUpTime = wakeUp
-//                }
-//
-//                if UserDefaults.standard.object(forKey: "wakeUpType") == nil {
-//                    wakeUpType = "Walk"
-//                }
-//
-//                if UserDefaults.standard.object(forKey: "standUpDuration") == nil {
-//                    standUpDuration = 60
-//                }
-//
-//                if UserDefaults.standard.object(forKey: "walkSteps") == nil {
-//                    walkSteps = 10
-//                }
-        
+                healthStore.fetchLatestHeartRate()
             }
             .padding()
             .navigationTitle("SleepGuard")
@@ -386,11 +335,11 @@ struct CircularSliderView: View {
     }
 }
 
-struct CircularSliderView_Previews: PreviewProvider {
-    static var previews: some View {
-        CircularSliderView(alarmViewModel: AlarmViewModel(connectivityProvider: ConnectionProvider()))
-    }
-}
+//struct CircularSliderView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CircularSliderView(alarmViewModel: AlarmViewModel(connectivityProvider: ConnectionProvider()))
+//    }
+//}
 
 extension View {
     // Screen Bounds Extension

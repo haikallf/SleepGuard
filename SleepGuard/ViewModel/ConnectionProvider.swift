@@ -15,11 +15,7 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
     
     @Published var wakeUpTime: Date?
     
-    @Published var wakeUpType: String?
-    
-    @Published var standUpDuration: Int?
-    
-    @Published var walkSteps: Int?
+    @Published var heartRateGoal: Double?
     
     init(session: WCSession = .default) {
         self.session = session
@@ -84,8 +80,8 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
         return dateFormatter.date(from: str)!
     }
     
-    func sendAlarm(wakeUpTime: Date, wakeUpType: String, standUpDuration: Int, walkSteps: Int) {
-        let strAlarmData = "\(convertDateToString(date: wakeUpTime))++$$++\(wakeUpType)++$$++\(standUpDuration)++$$++\(walkSteps)"
+    func sendAlarm(wakeUpTime: Date, heartRateGoal: Double) {
+        let strAlarmData = "\(convertDateToString(date: wakeUpTime))++$$++\(heartRateGoal)"
         
         sendWatchMessage(strAlarmData)
     }
@@ -119,9 +115,7 @@ class ConnectionProvider: NSObject, WCSessionDelegate {
             
             DispatchQueue.main.async {
                 self.wakeUpTime = self.convertStringToDate(str: receivedAlarmArr[0])
-                self.wakeUpType = receivedAlarmArr[1]
-                self.standUpDuration = Int(receivedAlarmArr[2]) ?? 30
-                self.walkSteps = Int(receivedAlarmArr[3]) ?? 10
+                self.heartRateGoal = Double(receivedAlarmArr[1]) ?? 100
             }
         }
     }

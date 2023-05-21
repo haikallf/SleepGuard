@@ -6,17 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct HomeView: View {
     var alarmViewModel: AlarmViewModel
     @State var currentWakeUpTime: Date?
-//    @State var currentAlarm: String?
-    
-//    init(alarmViewModel: AlarmViewModel){
-//        self.alarmViewModel = alarmViewModel
-//        // wrapped value for object
-//        self._currentAlarm = State(initialValue: alarmViewModel.connectivityProvider.receivedAlarm)
-//    }
+
     var body: some View {
         VStack {
             VStack (alignment: .leading) {

@@ -9,18 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var alarmViewModel: AlarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
+    @StateObject var healthStore: HealthStore = HealthStore()
     let connect = ConnectionProvider()
     var body: some View {
         NavigationView {
             ZStack {
                 Color("darkGray")
                     .ignoresSafeArea()
-                CircularSliderView(alarmViewModel: alarmViewModel)
+                CircularSliderView(alarmViewModel: alarmViewModel, healthStore: healthStore)
                     .preferredColorScheme(.dark)
             }
         }
         .onAppear() {
             print(UserDefaults.standard.object(forKey: "wakeUpType") == nil)
+            alarmViewModel.askNotificationPermission()
         }
     }
 }
