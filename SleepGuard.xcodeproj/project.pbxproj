@@ -29,6 +29,7 @@
 		C5C3EBFC2A18167400E1537E /* CircularSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C3EBFB2A18167400E1537E /* CircularSliderView.swift */; };
 		C5E622752A1A50EB0095D5A3 /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E622742A1A50EB0095D5A3 /* HealthStore.swift */; };
 		C5E622792A1A603B0095D5A3 /* HeartRateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E622782A1A603B0095D5A3 /* HeartRateViewModel.swift */; };
+		C5E6227C2A1ABE990095D5A3 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E6227B2A1ABE990095D5A3 /* NotificationViewController.swift */; };
 		DE3789FF2A177E4B00BE10CB /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		C5E622772A1A5E460095D5A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C5E622782A1A603B0095D5A3 /* HeartRateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateViewModel.swift; sourceTree = "<group>"; };
 		C5E6227A2A1A656B0095D5A3 /* SleepGuard Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SleepGuard Watch App.entitlements"; sourceTree = "<group>"; };
+		C5E6227B2A1ABE990095D5A3 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +179,7 @@
 		C5B7ABCB2A163D4100B90841 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C5E6227B2A1ABE990095D5A3 /* NotificationViewController.swift */,
 				C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */,
 				C5B7ABD62A166ABB00B90841 /* ConnectionProvider.swift */,
 				C5E622742A1A50EB0095D5A3 /* HealthStore.swift */,
@@ -305,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5C3EBFC2A18167400E1537E /* CircularSliderView.swift in Sources */,
+				C5E6227C2A1ABE990095D5A3 /* NotificationViewController.swift in Sources */,
 				C5E622792A1A603B0095D5A3 /* HeartRateViewModel.swift in Sources */,
 				C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */,
 				C5B7ABD92A16850D00B90841 /* Alarm.swift in Sources */,

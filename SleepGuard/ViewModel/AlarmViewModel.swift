@@ -121,19 +121,22 @@ class AlarmViewModel: NSObject, ObservableObject {
         UNUserNotificationCenter.current().add(request)
     }
     
-//    func showFullScreenNotification() {
-//        let content = UNMutableNotificationContent()
-//        content.title = "Full-Screen Notification"
-//        content.body = "This is a full-screen notification"
-//        content.categoryIdentifier = "customNotificationCategory"
-//
-//        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
-//        UNUserNotificationCenter.current().add(request) { error in
-//            if let error = error {
-//                print("Error showing notification: \(error.localizedDescription)")
-//            } else {
-//                print("Notification shown successfully")
-//            }
-//        }
-//    }
+    func showFullScreenNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Alarm"
+        content.body = "Wake up!"
+        content.sound = UNNotificationSound.default
+        content.categoryIdentifier = "AlarmCategory"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling alarm: \(error.localizedDescription)")
+            } else {
+                print("Alarm scheduled successfully")
+            }
+        }
+    }
 }

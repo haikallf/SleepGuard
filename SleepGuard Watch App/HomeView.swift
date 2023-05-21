@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import WatchKit
 
 struct HomeView: View {
     var alarmViewModel: AlarmViewModel
@@ -45,6 +46,7 @@ struct HomeView: View {
                 .foregroundColor(.orange)
         }
         .onAppear() {
+            WKInterfaceDevice.current().play(.notification)
             alarmViewModel.connectivityProvider.connect()
             currentWakeUpTime = alarmViewModel.connectivityProvider.wakeUpTime
             alarmViewModel.wakeUpTime = alarmViewModel.connectivityProvider.wakeUpTime
