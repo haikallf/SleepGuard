@@ -127,7 +127,7 @@ struct CircularSliderView: View {
                         Picker("", selection: $heartRateGoal) {
                             ForEach(0...5, id: \.self) {elmt in
                                 Text("\((elmt * 10) + 100)bpm")
-                                    .tag((elmt * 10) + 100)
+                                    .tag(Double((elmt * 10) + 100))
                             }
                         }
                     }
@@ -157,10 +157,21 @@ struct CircularSliderView: View {
                     print(wakeUpTime)
                     
                     let calendar = Calendar.current
-                    let minuteDiff = calendar.dateComponents([.hour, .minute, .second], from: Date(), to: wakeUpTime ?? Date()).minute
-                    let secondDiff = calendar.dateComponents([.hour, .minute, .second], from: Date(), to: wakeUpTime ?? Date()).second
-                    let timeDifference = secondDiff! + (minuteDiff! * 60)
+                    var hourDiff = calendar.dateComponents([.hour, .minute, .second], from: Date(), to: wakeUpTime ?? Date()).hour
+                    var minuteDiff = calendar.dateComponents([.hour, .minute, .second], from: Date(), to: wakeUpTime ?? Date()).minute
+                    var secondDiff = calendar.dateComponents([.hour, .minute, .second], from: Date(), to: wakeUpTime ?? Date()).second
+                    
+                    hourDiff = hourDiff! < 0 ? hourDiff! + 24: (hourDiff! >= 24 ? 0 : hourDiff!)
+                    minuteDiff = minuteDiff! > 0 ? minuteDiff! : minuteDiff! + 60
+                    secondDiff = secondDiff! > 0 ? secondDiff! : secondDiff! + 60
+                    
+                    print("Hour Diff: \(hourDiff)")
+                    print("Minute Diff: \(minuteDiff)")
+                    print("Second Diff: \(secondDiff)")
+                    
+                    let timeDifference = secondDiff! + (minuteDiff! * 60) + (hourDiff! * 3600)
                     print("Time Diff: \(timeDifference)")
+                    
                     alarmViewModel.timeDiff = Double(timeDifference)
 
                     let timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
@@ -168,6 +179,7 @@ struct CircularSliderView: View {
                         print("Executing code in 5 seconds")
                         alarmViewModel.showFullScreenNotification()
                         alarmViewModel.playSound()
+                        alarmViewModel.isChallengeViewShown = true
                     }
                     RunLoop.current.add(timer, forMode: .common)
                     
@@ -337,15 +349,6 @@ struct CircularSliderView: View {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
-        
-//        if let date = formatter.date(from: "\(hour):\(Int(minute)):00") {
-////            if isStartAngle == 1 {
-////                sleepTime = date
-////            } else if isStartAngle == -1 {
-////                wakeUpTime = date
-////            }
-//            return date
-//        }
         
         if let date = formatter.date(from: "\(hour):\(Int(minute)):00") {
             return alarmViewModel.adjustTimeOnCurrentDate(hour: hour, minute: Int(minute))

@@ -16,6 +16,11 @@
 		C5387B9D2A159BB6000FCE46 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5387B9C2A159BB6000FCE46 /* ContentView.swift */; };
 		C5387B9F2A159BB6000FCE46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5387B9E2A159BB6000FCE46 /* Assets.xcassets */; };
 		C5387BA22A159BB6000FCE46 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5387BA12A159BB6000FCE46 /* Preview Assets.xcassets */; };
+		C585DE0C2A1BBFC700F13A46 /* AlarmChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C585DE0B2A1BBFC700F13A46 /* AlarmChallengeView.swift */; };
+		C585DE102A1BC68F00F13A46 /* hardcore.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C585DE0F2A1BC68F00F13A46 /* hardcore.mp3 */; };
+		C585DE132A1BDEA600F13A46 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C585DE122A1BDEA600F13A46 /* Lottie */; };
+		C585DE172A1BDF2900F13A46 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C585DE162A1BDF2900F13A46 /* LottieView.swift */; };
+		C585DE1F2A1BE7A900F13A46 /* heart-beat.json in Resources */ = {isa = PBXBuildFile; fileRef = C585DE1E2A1BE7A900F13A46 /* heart-beat.json */; };
 		C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */; };
 		C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD12A165C4900B90841 /* WakeUpType.swift */; };
 		C5B7ABD52A166A2C00B90841 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B7ABD42A166A2C00B90841 /* WatchConnectivity.framework */; };
@@ -70,6 +75,10 @@
 		C5387B9C2A159BB6000FCE46 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C5387B9E2A159BB6000FCE46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5387BA12A159BB6000FCE46 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C585DE0B2A1BBFC700F13A46 /* AlarmChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmChallengeView.swift; sourceTree = "<group>"; };
+		C585DE0F2A1BC68F00F13A46 /* hardcore.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hardcore.mp3; sourceTree = "<group>"; };
+		C585DE162A1BDF2900F13A46 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		C585DE1E2A1BE7A900F13A46 /* heart-beat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "heart-beat.json"; sourceTree = "<group>"; };
 		C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
 		C5B7ABD12A165C4900B90841 /* WakeUpType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeUpType.swift; sourceTree = "<group>"; };
 		C5B7ABD42A166A2C00B90841 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
@@ -94,6 +103,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5B7ABD52A166A2C00B90841 /* WatchConnectivity.framework in Frameworks */,
+				C585DE132A1BDEA600F13A46 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +120,7 @@
 		C5387B7C2A159BB5000FCE46 = {
 			isa = PBXGroup;
 			children = (
+				C585DE192A1BDFF800F13A46 /* LottieAnimations */,
 				DE52A6552A1B6FDD006F8E74 /* Sounds */,
 				C5387B872A159BB5000FCE46 /* SleepGuard */,
 				C5387B992A159BB6000FCE46 /* SleepGuard Watch App */,
@@ -177,8 +188,18 @@
 			children = (
 				C5387B8A2A159BB5000FCE46 /* ContentView.swift */,
 				C5C3EBFB2A18167400E1537E /* CircularSliderView.swift */,
+				C585DE0B2A1BBFC700F13A46 /* AlarmChallengeView.swift */,
+				C585DE162A1BDF2900F13A46 /* LottieView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C585DE192A1BDFF800F13A46 /* LottieAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				C585DE1E2A1BE7A900F13A46 /* heart-beat.json */,
+			);
+			path = LottieAnimations;
 			sourceTree = "<group>";
 		};
 		C5B7ABCB2A163D4100B90841 /* ViewModel */ = {
@@ -213,6 +234,7 @@
 		DE52A6552A1B6FDD006F8E74 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				C585DE0F2A1BC68F00F13A46 /* hardcore.mp3 */,
 				DE52A6532A1B64D5006F8E74 /* air_raid_siren.wav */,
 				DE52A6582A1B7022006F8E74 /* air_raid_siren.mp3 */,
 			);
@@ -237,6 +259,9 @@
 				C5387B982A159BB6000FCE46 /* PBXTargetDependency */,
 			);
 			name = SleepGuard;
+			packageProductDependencies = (
+				C585DE122A1BDEA600F13A46 /* Lottie */,
+			);
 			productName = SleepGuard;
 			productReference = C5387B852A159BB5000FCE46 /* SleepGuard.app */;
 			productType = "com.apple.product-type.application";
@@ -285,6 +310,9 @@
 				Base,
 			);
 			mainGroup = C5387B7C2A159BB5000FCE46;
+			packageReferences = (
+				C585DE112A1BDEA600F13A46 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			productRefGroup = C5387B862A159BB5000FCE46 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -302,8 +330,10 @@
 			files = (
 				DE52A6542A1B64D5006F8E74 /* air_raid_siren.wav in Resources */,
 				C5387B902A159BB6000FCE46 /* Preview Assets.xcassets in Resources */,
+				C585DE1F2A1BE7A900F13A46 /* heart-beat.json in Resources */,
 				C5387B8D2A159BB6000FCE46 /* Assets.xcassets in Resources */,
 				DE52A6592A1B7023006F8E74 /* air_raid_siren.mp3 in Resources */,
+				C585DE102A1BC68F00F13A46 /* hardcore.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +359,9 @@
 				C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */,
 				C5B7ABD92A16850D00B90841 /* Alarm.swift in Sources */,
 				C5B7ABD72A166ABB00B90841 /* ConnectionProvider.swift in Sources */,
+				C585DE0C2A1BBFC700F13A46 /* AlarmChallengeView.swift in Sources */,
 				C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */,
+				C585DE172A1BDF2900F13A46 /* LottieView.swift in Sources */,
 				C5387B8B2A159BB5000FCE46 /* ContentView.swift in Sources */,
 				DE3789FF2A177E4B00BE10CB /* InterfaceController.swift in Sources */,
 				C5E622752A1A50EB0095D5A3 /* HealthStore.swift in Sources */,
@@ -644,6 +676,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C585DE112A1BDEA600F13A46 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C585DE122A1BDEA600F13A46 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C585DE112A1BDEA600F13A46 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C5387B7D2A159BB5000FCE46 /* Project object */;
 }

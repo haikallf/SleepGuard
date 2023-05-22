@@ -10,14 +10,23 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var alarmViewModel: AlarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
     @StateObject var healthStore: HealthStore = HealthStore()
+    
     let connect = ConnectionProvider()
     var body: some View {
         NavigationView {
             ZStack {
                 Color("darkGray")
                     .ignoresSafeArea()
-                CircularSliderView(alarmViewModel: alarmViewModel, healthStore: healthStore)
-                    .preferredColorScheme(.dark)
+                Group {
+                    if (alarmViewModel.isChallengeViewShown) {
+                        AlarmChallengeView(alarmViewModel: alarmViewModel)
+                            .preferredColorScheme(.dark)
+                    } else {
+                        CircularSliderView(alarmViewModel: alarmViewModel, healthStore: healthStore)
+                            .preferredColorScheme(.dark)
+                    }
+                }
+                
             }
         }
         .onAppear() {

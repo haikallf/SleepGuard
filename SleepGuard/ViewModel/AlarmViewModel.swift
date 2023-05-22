@@ -20,6 +20,12 @@ class AlarmViewModel: NSObject, ObservableObject {
     
     @Published var timeDiff: Double
     
+    @Published var isChallengeViewShown: Bool = true
+    
+    @Published var numberOfLoops: Int = -1
+    
+    @Published var dummyHeartRate: Double = 90
+    
     var player: AVAudioPlayer?
     
     init(connectivityProvider: ConnectionProvider) {
@@ -31,19 +37,24 @@ class AlarmViewModel: NSObject, ObservableObject {
     
     func playSound() {
         print("Alarm view called")
-        guard let soundURL = Bundle.main.url(forResource: "air_raid_siren", withExtension: ".mp3") else {
+        guard let soundURL = Bundle.main.url(forResource: "hardcore", withExtension: ".mp3") else {
             print("Sound file not found.")
             return
         }
         
         do {
             player = try AVAudioPlayer(contentsOf: soundURL)
+            player?.numberOfLoops = numberOfLoops
             player?.play()
         } catch let error {
             print("\(error.localizedDescription)")
         }
     }
     
+    func stopSound() {
+        player?.stop()
+    }
+
     func setWakeUpTime(_ wakeUpTime: Date) {
         self.wakeUpTime = wakeUpTime
     }
@@ -70,6 +81,13 @@ class AlarmViewModel: NSObject, ObservableObject {
     func formatTime(time: Date) -> String {
         let dateFormatterTemplate = DateFormatter()
         dateFormatterTemplate.setLocalizedDateFormatFromTemplate("HH.mm")
+        return dateFormatterTemplate.string(from: time)
+    }
+    
+    func formatDate(time: Date) -> String {
+        let dateFormatterTemplate = DateFormatter()
+        dateFormatterTemplate.dateStyle = .long
+        dateFormatterTemplate.timeStyle = .none
         return dateFormatterTemplate.string(from: time)
     }
     
@@ -187,6 +205,19 @@ class AlarmViewModel: NSObject, ObservableObject {
             } else {
                 print("Alarm scheduled successfully")
             }
+        }
+    }
+    
+    func incrementDummyHeartRate() {
+        DispatchQueue.main.async {
+            print("\(self.dummyHeartRate)")
+           self.dummyHeartRate += 1
+        }
+    }
+    
+    func decrementDummyHeartRate() {
+        DispatchQueue.main.async {
+           self.dummyHeartRate -= 1
         }
     }
 }
