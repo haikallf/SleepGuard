@@ -178,7 +178,7 @@ class AlarmViewModel: NSObject, ObservableObject {
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = "AlarmCategory"
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeDiff, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in

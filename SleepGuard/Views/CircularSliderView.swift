@@ -146,7 +146,6 @@ struct CircularSliderView: View {
 //                    alarmViewModel.playSound()
                     
                     
-                    alarmViewModel.showFullScreenNotification()
                     sleepTime = getTime(angle: startAngle)
                     wakeUpTime = getTime(angle: endAngle)
                     
@@ -164,9 +163,10 @@ struct CircularSliderView: View {
                     print("Time Diff: \(timeDifference)")
                     alarmViewModel.timeDiff = Double(timeDifference)
 
-                    let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timeDifference ?? 1), repeats: false) { _ in
+                    let timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
                         // Code to be executed at the desired time
                         print("Executing code in 5 seconds")
+                        alarmViewModel.showFullScreenNotification()
                         alarmViewModel.playSound()
                     }
                     RunLoop.current.add(timer, forMode: .common)
