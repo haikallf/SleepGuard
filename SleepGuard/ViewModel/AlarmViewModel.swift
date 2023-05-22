@@ -7,6 +7,7 @@
 
 import UIKit
 import UserNotifications
+import AVFoundation
 
 class AlarmViewModel: NSObject, ObservableObject {
     private(set) var connectivityProvider: ConnectionProvider
@@ -17,10 +18,30 @@ class AlarmViewModel: NSObject, ObservableObject {
     
     @Published var alarms: [Alarm] = []
     
+    @Published var timeDiff: Double
+    
+    var player: AVAudioPlayer?
+    
     init(connectivityProvider: ConnectionProvider) {
         self.heartRateGoal = 100
         self.connectivityProvider = connectivityProvider
         self.connectivityProvider.connect()
+        self.timeDiff = 1
+    }
+    
+    func playSound() {
+        print("Alarm view called")
+        guard let soundURL = Bundle.main.url(forResource: "air_raid_siren", withExtension: ".mp3") else {
+            print("Sound file not found.")
+            return
+        }
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: soundURL)
+            player?.play()
+        } catch let error {
+            print("\(error.localizedDescription)")
+        }
     }
     
     func setWakeUpTime(_ wakeUpTime: Date) {
@@ -53,6 +74,25 @@ class AlarmViewModel: NSObject, ObservableObject {
     }
     
     func getTimeOfDay() -> String {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour], from: self.wakeUpTime ?? Date())
+        
+        guard let hour = components.hour else {
+            return ""
+        }
+        
+        if hour < 12 {
+            return "Morning"
+        } else if hour < 17 {
+            return "Afternoon"
+        } else if hour < 20 {
+            return "Evening"
+        } else {
+            return "Night"
+        }
+    }
+    
+    func getTimeDifferences(now: Date = Date()) -> String {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.hour], from: self.wakeUpTime ?? Date())
         
@@ -114,7 +154,17 @@ class AlarmViewModel: NSObject, ObservableObject {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
+        
+        // Get the file URL of the audio file in your app bundle
+       
+        
+        #if os(iOS)
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("air_raid_siren"))
+        #endif
+        
+        #if os(watchOS)
         content.sound = UNNotificationSound.default
+        #endif
         
         // Create the request
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
@@ -128,7 +178,7 @@ class AlarmViewModel: NSObject, ObservableObject {
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = "AlarmCategory"
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeDiff, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in

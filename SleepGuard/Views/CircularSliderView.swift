@@ -49,7 +49,7 @@ struct CircularSliderView: View {
         }
 
         if UserDefaults.standard.object(forKey: "heartRateGoal") == nil {
-            _heartRateGoal = State(initialValue: 60)
+            _heartRateGoal = State(initialValue: 100.0)
         } else {
             _heartRateGoal = State(initialValue: UserDefaults.standard.double(forKey: "heartRateGoal"))
         }
@@ -77,10 +77,10 @@ struct CircularSliderView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         
-                        VStack {
-                            Text("Heart Rate:")
-                            Text("\(heartRateViewModel.latestHeartRate) bpm")
-                        }
+//                        VStack {
+//                            Text("Heart Rate:")
+//                            Text("\(heartRateViewModel.latestHeartRate) bpm")
+//                        }
                         
                         
                         VStack(alignment: .leading, spacing: 8) {
@@ -141,6 +141,10 @@ struct CircularSliderView: View {
 //                    healthStore.fetchLatestHeartRate()
 //                    heartRateViewModel.startHeartRateDetection()
 //                    alarmViewModel.sendNotification(date: Date() + 60, type: "date", title: "SleepGuard", body: "Bangun Weh")
+//                    let timer = Timer(fireAt: Date() + 5, interval: 0, target: self, selector: #selector({print("Ran")}), userInfo: nil, repeats: false)
+//                    RunLoop.main.add(timer, forMode: .common)
+//                    alarmViewModel.playSound()
+                    
                     
                     alarmViewModel.showFullScreenNotification()
                     sleepTime = getTime(angle: startAngle)
@@ -150,9 +154,34 @@ struct CircularSliderView: View {
                     alarmViewModel.heartRateGoal = heartRateGoal
                     
                     alarmViewModel.connectivityProvider.sendAlarm(wakeUpTime: alarmViewModel.wakeUpTime ?? Date(), heartRateGoal: alarmViewModel.heartRateGoal)
-                    print("sleepTime: \(getTime(angle: startAngle))")
-                    print("wakeUpTime: \(wakeUpTime ?? Date())")
-                    print("heartRateGoal: \(heartRateGoal)")
+                    
+                    print(wakeUpTime)
+                    
+                    let calendar = Calendar.current
+                    let minuteDiff = calendar.dateComponents([.hour, .minute, .second], from: Date(), to: wakeUpTime ?? Date()).minute
+                    let secondDiff = calendar.dateComponents([.hour, .minute, .second], from: Date(), to: wakeUpTime ?? Date()).second
+                    let timeDifference = secondDiff! + (minuteDiff! * 60)
+                    print("Time Diff: \(timeDifference)")
+                    alarmViewModel.timeDiff = Double(timeDifference)
+
+                    let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timeDifference ?? 1), repeats: false) { _ in
+                        // Code to be executed at the desired time
+                        print("Executing code in 5 seconds")
+                        alarmViewModel.playSound()
+                    }
+                    RunLoop.current.add(timer, forMode: .common)
+                    
+//                    if let timeDifference = timeDifference, timeDifference > 0 {
+//                        let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timeDifference), repeats: false) { _ in
+//                            // Code to be executed at the desired time
+//                            print("Executing code in 5 seconds")
+//                            alarmViewModel.playSound()
+//                        }
+//                        RunLoop.current.add(timer, forMode: .common)
+//                    } else {
+//                        print("Invalid time")
+//                    }
+                    
                 } label: {
                     Text("Set Alarm")
                         .padding()

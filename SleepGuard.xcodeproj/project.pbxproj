@@ -31,6 +31,8 @@
 		C5E622792A1A603B0095D5A3 /* HeartRateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E622782A1A603B0095D5A3 /* HeartRateViewModel.swift */; };
 		C5E6227C2A1ABE990095D5A3 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E6227B2A1ABE990095D5A3 /* NotificationViewController.swift */; };
 		DE3789FF2A177E4B00BE10CB /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */; };
+		DE52A6542A1B64D5006F8E74 /* air_raid_siren.wav in Resources */ = {isa = PBXBuildFile; fileRef = DE52A6532A1B64D5006F8E74 /* air_raid_siren.wav */; };
+		DE52A6592A1B7023006F8E74 /* air_raid_siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DE52A6582A1B7022006F8E74 /* air_raid_siren.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		C5E6227A2A1A656B0095D5A3 /* SleepGuard Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SleepGuard Watch App.entitlements"; sourceTree = "<group>"; };
 		C5E6227B2A1ABE990095D5A3 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		DE52A6532A1B64D5006F8E74 /* air_raid_siren.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = air_raid_siren.wav; sourceTree = "<group>"; };
+		DE52A6582A1B7022006F8E74 /* air_raid_siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = air_raid_siren.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,7 @@
 		C5387B7C2A159BB5000FCE46 = {
 			isa = PBXGroup;
 			children = (
+				DE52A6552A1B6FDD006F8E74 /* Sounds */,
 				C5387B872A159BB5000FCE46 /* SleepGuard */,
 				C5387B992A159BB6000FCE46 /* SleepGuard Watch App */,
 				C5387B862A159BB5000FCE46 /* Products */,
@@ -205,6 +210,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DE52A6552A1B6FDD006F8E74 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				DE52A6532A1B64D5006F8E74 /* air_raid_siren.wav */,
+				DE52A6582A1B7022006F8E74 /* air_raid_siren.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -286,8 +300,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE52A6542A1B64D5006F8E74 /* air_raid_siren.wav in Resources */,
 				C5387B902A159BB6000FCE46 /* Preview Assets.xcassets in Resources */,
 				C5387B8D2A159BB6000FCE46 /* Assets.xcassets in Resources */,
+				DE52A6592A1B7023006F8E74 /* air_raid_siren.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
