@@ -239,10 +239,11 @@ struct CircularSliderView: View {
                     
                     // Clock Text
                     let texts = [12, 14, 16, 18, 20, 22, 0, 2, 4, 6, 8, 10]
+                    let whiteTexts = [0, 6, 12, 18]
                     ForEach(texts.indices, id: \.self) { index in
                         Text("\(texts[index])")
                             .font(.callout.bold())
-                            .foregroundColor(.gray)
+                            .foregroundColor(whiteTexts.contains(texts[index]) ? .white : .gray)
                             .rotationEffect(.init(degrees: Double(index) * -30))
                             .offset(y: (width - 90) / 2)
                             // 360 / 12 = 30
