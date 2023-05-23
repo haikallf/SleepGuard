@@ -46,7 +46,7 @@ struct AlarmChallengeView: View {
                 .font(.system(size: 72))
                 Button {
                     isAnimationPlayed = true
-//                    alarmViewModel.stopSound()
+                    alarmViewModel.stopSound()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                         withAnimation {
@@ -80,10 +80,17 @@ struct AlarmChallengeView: View {
             if (newHeartRate >= alarmViewModel.heartRateGoal) {
                 dummyHeartRate = newHeartRate
                 alarmViewModel.stopSound()
-                alarmViewModel.isChallengeViewShown = false
+                
+                isAnimationPlayed = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    withAnimation {
+                        alarmViewModel.isChallengeViewShown = false
+                    }
+                }
             }
         }
         .padding()
+        .navigationBarHidden(true)
 //        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

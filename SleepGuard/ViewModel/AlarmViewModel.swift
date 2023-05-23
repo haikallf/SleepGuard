@@ -20,7 +20,7 @@ class AlarmViewModel: NSObject, ObservableObject {
     
     @Published var timeDiff: Double
     
-    @Published var isChallengeViewShown: Bool = true
+    @Published var isChallengeViewShown: Bool = false
     
     @Published var numberOfLoops: Int = -1
     
