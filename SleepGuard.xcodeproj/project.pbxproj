@@ -21,6 +21,7 @@
 		C585DE132A1BDEA600F13A46 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C585DE122A1BDEA600F13A46 /* Lottie */; };
 		C585DE172A1BDF2900F13A46 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C585DE162A1BDF2900F13A46 /* LottieView.swift */; };
 		C585DE1F2A1BE7A900F13A46 /* heart-beat.json in Resources */ = {isa = PBXBuildFile; fileRef = C585DE1E2A1BE7A900F13A46 /* heart-beat.json */; };
+		C5ACDD1A2A1C7A43003367A6 /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = C5ACDD182A1C7A43003367A6 /* success.json */; };
 		C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */; };
 		C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD12A165C4900B90841 /* WakeUpType.swift */; };
 		C5B7ABD52A166A2C00B90841 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B7ABD42A166A2C00B90841 /* WatchConnectivity.framework */; };
@@ -79,6 +80,7 @@
 		C585DE0F2A1BC68F00F13A46 /* hardcore.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hardcore.mp3; sourceTree = "<group>"; };
 		C585DE162A1BDF2900F13A46 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		C585DE1E2A1BE7A900F13A46 /* heart-beat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "heart-beat.json"; sourceTree = "<group>"; };
+		C5ACDD182A1C7A43003367A6 /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
 		C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
 		C5B7ABD12A165C4900B90841 /* WakeUpType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeUpType.swift; sourceTree = "<group>"; };
 		C5B7ABD42A166A2C00B90841 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
@@ -197,6 +199,7 @@
 		C585DE192A1BDFF800F13A46 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
+				C5ACDD182A1C7A43003367A6 /* success.json */,
 				C585DE1E2A1BE7A900F13A46 /* heart-beat.json */,
 			);
 			path = LottieAnimations;
@@ -332,6 +335,7 @@
 				C5387B902A159BB6000FCE46 /* Preview Assets.xcassets in Resources */,
 				C585DE1F2A1BE7A900F13A46 /* heart-beat.json in Resources */,
 				C5387B8D2A159BB6000FCE46 /* Assets.xcassets in Resources */,
+				C5ACDD1A2A1C7A43003367A6 /* success.json in Resources */,
 				DE52A6592A1B7023006F8E74 /* air_raid_siren.mp3 in Resources */,
 				C585DE102A1BC68F00F13A46 /* hardcore.mp3 in Resources */,
 			);

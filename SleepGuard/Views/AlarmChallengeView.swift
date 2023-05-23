@@ -10,6 +10,7 @@ import SwiftUI
 struct AlarmChallengeView: View {
     var alarmViewModel: AlarmViewModel
     @State var dummyHeartRate: Double = 90
+    @State var isAnimationPlayed: Bool = false
     
     var body: some View {
         ZStack {
@@ -30,24 +31,48 @@ struct AlarmChallengeView: View {
                     .foregroundColor(Color("yellow"))
                 
                 HStack {
-//                    Text("-")
-//                        .onTapGesture {
-//                            alarmViewModel.decrementDummyHeartRate()
-//                        }
+                    Text("-")
+                        .onTapGesture {
+                            alarmViewModel.decrementDummyHeartRate()
+                        }
                     
                     Text("\(alarmViewModel.dummyHeartRate , specifier: "%.0f")")
                 
-//                    Text("+")
-//                        .onTapGesture {
-//                            alarmViewModel.incrementDummyHeartRate()
-//                        }
+                    Text("+")
+                        .onTapGesture {
+                            alarmViewModel.incrementDummyHeartRate()
+                        }
                 }
                 .font(.system(size: 72))
                 Button {
-                    alarmViewModel.stopSound()
-                    alarmViewModel.isChallengeViewShown = false
+                    isAnimationPlayed = true
+//                    alarmViewModel.stopSound()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                        withAnimation {
+                            alarmViewModel.isChallengeViewShown = false
+                        }
+                    }
                 } label: {
-                    Text("Cancel")
+                    Text("Done")
+                }
+            }
+            
+            Circle()
+                .fill(Color("yellow"))
+                .frame(width: isAnimationPlayed ? 20 : 1)
+                .scaleEffect(isAnimationPlayed ? 100 : 1)
+                .animation(Animation.easeOut(duration: 0.5), value: isAnimationPlayed)
+            
+            if (isAnimationPlayed) {
+                ZStack {
+                    LottieView(name: "success", loopMode: .playOnce,   animationSpeed: 1)
+                        .opacity(1)
+                        .scaleEffect(0.4)
+                    
+                    Text("Success!")
+                        .font(.title.bold())
+                        .padding(.top, 300)
                 }
             }
         }
