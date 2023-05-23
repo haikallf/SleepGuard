@@ -26,6 +26,8 @@ class AlarmViewModel: NSObject, ObservableObject {
     
     @Published var dummyHeartRate: Double = 90
     
+    @Published var isDebugMode: Bool = true
+    
     var player: AVAudioPlayer?
     
     init(connectivityProvider: ConnectionProvider) {

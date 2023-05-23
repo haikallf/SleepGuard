@@ -77,12 +77,6 @@ struct CircularSliderView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         
-//                        VStack {
-//                            Text("Heart Rate:")
-//                            Text("\(heartRateViewModel.latestHeartRate) bpm")
-//                        }
-                        
-                        
                         VStack(alignment: .leading, spacing: 8) {
                             Label {
                                 Text("Wake Up")
@@ -138,14 +132,6 @@ struct CircularSliderView: View {
                 .cornerRadius(10)
                 
                 Button {
-//                    healthStore.fetchLatestHeartRate()
-//                    heartRateViewModel.startHeartRateDetection()
-//                    alarmViewModel.sendNotification(date: Date() + 60, type: "date", title: "SleepGuard", body: "Bangun Weh")
-//                    let timer = Timer(fireAt: Date() + 5, interval: 0, target: self, selector: #selector({print("Ran")}), userInfo: nil, repeats: false)
-//                    RunLoop.main.add(timer, forMode: .common)
-//                    alarmViewModel.playSound()
-                    
-                    
                     sleepTime = getTime(angle: startAngle)
                     wakeUpTime = getTime(angle: endAngle)
                     
@@ -182,18 +168,7 @@ struct CircularSliderView: View {
                         alarmViewModel.isChallengeViewShown = true
                     }
                     RunLoop.current.add(timer, forMode: .common)
-                    
-//                    if let timeDifference = timeDifference, timeDifference > 0 {
-//                        let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timeDifference), repeats: false) { _ in
-//                            // Code to be executed at the desired time
-//                            print("Executing code in 5 seconds")
-//                            alarmViewModel.playSound()
-//                        }
-//                        RunLoop.current.add(timer, forMode: .common)
-//                    } else {
-//                        print("Invalid time")
-//                    }
-                    
+                                    
                 } label: {
                     Text("Set Alarm")
                         .padding()

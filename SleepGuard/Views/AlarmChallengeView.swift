@@ -11,6 +11,7 @@ struct AlarmChallengeView: View {
     var alarmViewModel: AlarmViewModel
     @State var dummyHeartRate: Double = 90
     @State var isAnimationPlayed: Bool = false
+    @State var isHeartBeating: Bool = false
     
     var body: some View {
         ZStack {
@@ -18,32 +19,44 @@ struct AlarmChallengeView: View {
                 Text(alarmViewModel.formatDate(time: Date()))
                 
                 Text(alarmViewModel.formatTime(time: Date()))
-                    .font(.system(size: 60).bold())
+                    .font(.system(size: 38).bold())
                 
                 Spacer()
             }
+            .padding(.top, 60)
             
-            LottieView(name: "heart-beat", animationSpeed: 1.5)
+            LottieView(name: "heart-beat-graph", animationSpeed: 1.5)
                 .opacity(0.3)
             
             VStack {
+                HStack {
+                    VStack {
+                        LottieView(name: "68659-heartbeat", animationSpeed: 4)
+                            .scaleEffect(0.7)
+                    }
+                    .padding(.top, 20)
+                    .padding(.trailing, -16)
+                    .frame(width: 60)
+                    
+                    Text("\(alarmViewModel.dummyHeartRate , specifier: "%.0f")")
+                        .font(.system(size: 92)) + Text("bpm")
+                        .font(.title)
+                }
+                
+                                
+            }
+            
+            
+            VStack {
+                Spacer()
+                    .frame(height: 400)
+                
                 Text("Heart Rate Goal: ") + Text("\(alarmViewModel.heartRateGoal, specifier: "%.0f") bpm")
                     .foregroundColor(Color("yellow"))
                 
-                HStack {
-                    Text("-")
-                        .onTapGesture {
-                            alarmViewModel.decrementDummyHeartRate()
-                        }
-                    
-                    Text("\(alarmViewModel.dummyHeartRate , specifier: "%.0f")")
+                Spacer()
+                    .frame(height: 24)
                 
-                    Text("+")
-                        .onTapGesture {
-                            alarmViewModel.incrementDummyHeartRate()
-                        }
-                }
-                .font(.system(size: 72))
                 Button {
                     isAnimationPlayed = true
                     alarmViewModel.stopSound()
@@ -55,8 +68,39 @@ struct AlarmChallengeView: View {
                     }
                 } label: {
                     Text("Done")
+                        .padding(.vertical)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("gray"), in: RoundedRectangle(cornerRadius: 10))
                 }
             }
+            
+            if (alarmViewModel.isDebugMode) {
+                VStack {
+                    Spacer()
+                    
+                    Text("Adjust Heart Rate")
+                    HStack {
+                        Button {
+                            alarmViewModel.decrementDummyHeartRate()
+                        } label: {
+                            Text("-")
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        Button {
+                            alarmViewModel.incrementDummyHeartRate()
+                        } label: {
+                            Text("+")
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .padding()
+                    .background(Color("gray"), in: RoundedRectangle(cornerRadius: 10))
+                .ignoresSafeArea()
+                }
+                
+            }
+
             
             Circle()
                 .fill(Color("yellow"))

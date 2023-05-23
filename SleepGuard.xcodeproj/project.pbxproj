@@ -20,7 +20,7 @@
 		C585DE102A1BC68F00F13A46 /* hardcore.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C585DE0F2A1BC68F00F13A46 /* hardcore.mp3 */; };
 		C585DE132A1BDEA600F13A46 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C585DE122A1BDEA600F13A46 /* Lottie */; };
 		C585DE172A1BDF2900F13A46 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C585DE162A1BDF2900F13A46 /* LottieView.swift */; };
-		C585DE1F2A1BE7A900F13A46 /* heart-beat.json in Resources */ = {isa = PBXBuildFile; fileRef = C585DE1E2A1BE7A900F13A46 /* heart-beat.json */; };
+		C585DE1F2A1BE7A900F13A46 /* heart-beat-graph.json in Resources */ = {isa = PBXBuildFile; fileRef = C585DE1E2A1BE7A900F13A46 /* heart-beat-graph.json */; };
 		C5ACDD1A2A1C7A43003367A6 /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = C5ACDD182A1C7A43003367A6 /* success.json */; };
 		C5B7ABCD2A16402B00B90841 /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */; };
 		C5B7ABD22A165C4900B90841 /* WakeUpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B7ABD12A165C4900B90841 /* WakeUpType.swift */; };
@@ -39,6 +39,8 @@
 		DE3789FF2A177E4B00BE10CB /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */; };
 		DE52A6542A1B64D5006F8E74 /* air_raid_siren.wav in Resources */ = {isa = PBXBuildFile; fileRef = DE52A6532A1B64D5006F8E74 /* air_raid_siren.wav */; };
 		DE52A6592A1B7023006F8E74 /* air_raid_siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DE52A6582A1B7022006F8E74 /* air_raid_siren.mp3 */; };
+		DE52A65D2A1CF1E9006F8E74 /* heart-beat.json in Resources */ = {isa = PBXBuildFile; fileRef = DE52A65C2A1CF1E9006F8E74 /* heart-beat.json */; };
+		DE52A65F2A1CF84E006F8E74 /* 68659-heartbeat.json in Resources */ = {isa = PBXBuildFile; fileRef = DE52A65E2A1CF84E006F8E74 /* 68659-heartbeat.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,7 +81,7 @@
 		C585DE0B2A1BBFC700F13A46 /* AlarmChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmChallengeView.swift; sourceTree = "<group>"; };
 		C585DE0F2A1BC68F00F13A46 /* hardcore.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hardcore.mp3; sourceTree = "<group>"; };
 		C585DE162A1BDF2900F13A46 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
-		C585DE1E2A1BE7A900F13A46 /* heart-beat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "heart-beat.json"; sourceTree = "<group>"; };
+		C585DE1E2A1BE7A900F13A46 /* heart-beat-graph.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "heart-beat-graph.json"; sourceTree = "<group>"; };
 		C5ACDD182A1C7A43003367A6 /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
 		C5B7ABCC2A16402B00B90841 /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
 		C5B7ABD12A165C4900B90841 /* WakeUpType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeUpType.swift; sourceTree = "<group>"; };
@@ -97,6 +99,8 @@
 		DE3789FE2A177E4B00BE10CB /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		DE52A6532A1B64D5006F8E74 /* air_raid_siren.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = air_raid_siren.wav; sourceTree = "<group>"; };
 		DE52A6582A1B7022006F8E74 /* air_raid_siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = air_raid_siren.mp3; sourceTree = "<group>"; };
+		DE52A65C2A1CF1E9006F8E74 /* heart-beat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "heart-beat.json"; sourceTree = "<group>"; };
+		DE52A65E2A1CF84E006F8E74 /* 68659-heartbeat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "68659-heartbeat.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,8 +203,10 @@
 		C585DE192A1BDFF800F13A46 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
+				DE52A65E2A1CF84E006F8E74 /* 68659-heartbeat.json */,
+				DE52A65C2A1CF1E9006F8E74 /* heart-beat.json */,
 				C5ACDD182A1C7A43003367A6 /* success.json */,
-				C585DE1E2A1BE7A900F13A46 /* heart-beat.json */,
+				C585DE1E2A1BE7A900F13A46 /* heart-beat-graph.json */,
 			);
 			path = LottieAnimations;
 			sourceTree = "<group>";
@@ -333,7 +339,9 @@
 			files = (
 				DE52A6542A1B64D5006F8E74 /* air_raid_siren.wav in Resources */,
 				C5387B902A159BB6000FCE46 /* Preview Assets.xcassets in Resources */,
-				C585DE1F2A1BE7A900F13A46 /* heart-beat.json in Resources */,
+				DE52A65D2A1CF1E9006F8E74 /* heart-beat.json in Resources */,
+				DE52A65F2A1CF84E006F8E74 /* 68659-heartbeat.json in Resources */,
+				C585DE1F2A1BE7A900F13A46 /* heart-beat-graph.json in Resources */,
 				C5387B8D2A159BB6000FCE46 /* Assets.xcassets in Resources */,
 				C5ACDD1A2A1C7A43003367A6 /* success.json in Resources */,
 				DE52A6592A1B7023006F8E74 /* air_raid_siren.mp3 in Resources */,
