@@ -46,14 +46,22 @@ struct HomeView: View {
                 .foregroundColor(.orange)
         }
         .onAppear() {
-            WKInterfaceDevice.current().play(.notification)
+//            WKInterfaceDevice.current().play(.notification)
             alarmViewModel.connectivityProvider.connect()
-            currentWakeUpTime = alarmViewModel.connectivityProvider.wakeUpTime
             alarmViewModel.wakeUpTime = alarmViewModel.connectivityProvider.wakeUpTime
+            
+            if UserDefaults.standard.object(forKey: "wakeUpTime") != nil {
+//                _currentWakeUpTime = State(initialValue: alarmViewModel.connectivityProvider.wakeUpTime)
+                currentWakeUpTime = alarmViewModel.stringToDateTime(str: UserDefaults.standard.string(forKey: "wakeUpTime") ?? "")
+                alarmViewModel.wakeUpTime = alarmViewModel.stringToDateTime(str: UserDefaults.standard.string(forKey: "wakeUpTime") ?? "")
+            }
         }
         .onReceive(alarmViewModel.connectivityProvider.$wakeUpTime) { newData in
-            currentWakeUpTime = newData
-            alarmViewModel.wakeUpTime = newData
+            if (newData != nil) {
+                currentWakeUpTime = newData
+                alarmViewModel.wakeUpTime = newData
+                UserDefaults.standard.set(alarmViewModel.dateTimeToString(time: newData!), forKey: "wakeUpTime")
+            }
         }
     }
 }

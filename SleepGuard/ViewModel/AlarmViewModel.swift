@@ -20,13 +20,13 @@ class AlarmViewModel: NSObject, ObservableObject {
     
     @Published var timeDiff: Double
     
-    @Published var isChallengeViewShown: Bool = true
+    @Published var isChallengeViewShown: Bool = false
     
     @Published var numberOfLoops: Int = -1
     
     @Published var dummyHeartRate: Double = 90
     
-    @Published var isDebugMode: Bool = false
+    @Published var isDebugMode: Bool = true
     
     var player: AVAudioPlayer?
     
@@ -91,6 +91,20 @@ class AlarmViewModel: NSObject, ObservableObject {
         dateFormatterTemplate.dateStyle = .long
         dateFormatterTemplate.timeStyle = .none
         return dateFormatterTemplate.string(from: time)
+    }
+    
+    func dateTimeToString(time: Date) -> String {
+        let dateFormatterTemplate = DateFormatter()
+        dateFormatterTemplate.dateStyle = .long
+        dateFormatterTemplate.timeStyle = .full
+        return dateFormatterTemplate.string(from: time)
+    }
+    
+    func stringToDateTime(str: String) -> Date {
+        let dateFormatterTemplate = DateFormatter()
+        dateFormatterTemplate.dateStyle = .long
+        dateFormatterTemplate.timeStyle = .full
+        return dateFormatterTemplate.date(from: str) ?? Date()
     }
     
     func getTimeOfDay() -> String {

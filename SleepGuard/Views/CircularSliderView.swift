@@ -45,13 +45,37 @@ struct CircularSliderView: View {
         if UserDefaults.standard.object(forKey: "wakeUpTime") == nil {
             _wakeUpTime = State(initialValue: wakeUp)
         } else {
-            _wakeUpTime = State(initialValue: UserDefaults.standard.object(forKey: "wakeUpTime") as! Date)
+            _wakeUpTime = State(initialValue: alarmViewModel.stringToDateTime(str: UserDefaults.standard.string(forKey: "wakeUpTime") ?? ""))
         }
 
         if UserDefaults.standard.object(forKey: "heartRateGoal") == nil {
             _heartRateGoal = State(initialValue: 100.0)
         } else {
             _heartRateGoal = State(initialValue: UserDefaults.standard.double(forKey: "heartRateGoal"))
+        }
+        
+        if UserDefaults.standard.object(forKey: "startAngle") == nil {
+            _startAngle = State(initialValue: 0)
+        } else {
+            _startAngle = State(initialValue: UserDefaults.standard.double(forKey: "startAngle"))
+        }
+        
+        if UserDefaults.standard.object(forKey: "endAngle") == nil {
+            _endAngle = State(initialValue: 180)
+        } else {
+            _endAngle = State(initialValue: UserDefaults.standard.double(forKey: "endAngle"))
+        }
+        
+        if UserDefaults.standard.object(forKey: "startProgress") == nil {
+            _startProgress = State(initialValue: 0)
+        } else {
+            _startProgress = State(initialValue: CGFloat(UserDefaults.standard.float(forKey: "startProgress")))
+        }
+        
+        if UserDefaults.standard.object(forKey: "endProgress") == nil {
+            _endProgress = State(initialValue: 0.5)
+        } else {
+            _endProgress = State(initialValue: CGFloat(UserDefaults.standard.float(forKey: "endProgress")))
         }
     }
     
@@ -159,6 +183,16 @@ struct CircularSliderView: View {
                     print("Time Diff: \(timeDifference)")
                     
                     alarmViewModel.timeDiff = Double(timeDifference)
+                    
+                    UserDefaults.standard.set(alarmViewModel.dateTimeToString(time: wakeUpTime ?? Date()), forKey: "wakeUpTime")
+                    
+                    UserDefaults.standard.set(heartRateGoal, forKey: "heartRateGoal")
+                    
+                    UserDefaults.standard.set(startAngle, forKey: "startAngle")
+                    UserDefaults.standard.set(endAngle, forKey: "endAngle")
+                    
+                    UserDefaults.standard.set(Float(startProgress), forKey: "startProgress")
+                    UserDefaults.standard.set(Float(endProgress), forKey: "endProgress")
 
                     let timer = Timer.scheduledTimer(withTimeInterval: alarmViewModel.isDebugMode ? 10 : TimeInterval(timeDifference), repeats: false) { _ in
                         // Code to be executed at the desired time
