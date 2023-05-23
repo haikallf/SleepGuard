@@ -20,13 +20,13 @@ class AlarmViewModel: NSObject, ObservableObject {
     
     @Published var timeDiff: Double
     
-    @Published var isChallengeViewShown: Bool = false
+    @Published var isChallengeViewShown: Bool = true
     
     @Published var numberOfLoops: Int = -1
     
     @Published var dummyHeartRate: Double = 90
     
-    @Published var isDebugMode: Bool = true
+    @Published var isDebugMode: Bool = false
     
     var player: AVAudioPlayer?
     

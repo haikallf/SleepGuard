@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct AlarmChallengeView: View {
-    var alarmViewModel: AlarmViewModel
+    @ObservedObject var alarmViewModel: AlarmViewModel
+    @StateObject var heartRateViewModel: HeartRateViewModel = HeartRateViewModel()
     @State var dummyHeartRate: Double = 90
     @State var isAnimationPlayed: Bool = false
     @State var isHeartBeating: Bool = false
@@ -31,21 +32,32 @@ struct AlarmChallengeView: View {
             VStack {
                 HStack {
                     VStack {
-                        LottieView(name: "68659-heartbeat", animationSpeed: 4)
+                        LottieView(name: "68659-heartbeat", animationSpeed: 5)
                             .scaleEffect(0.7)
                     }
                     .padding(.top, 20)
                     .padding(.trailing, -16)
                     .frame(width: 60)
                     
-                    Text("\(alarmViewModel.dummyHeartRate , specifier: "%.0f")")
-                        .font(.system(size: 92)) + Text("bpm")
-                        .font(.title)
+                    Group {
+                        if (alarmViewModel.isDebugMode) {
+                            Text("\(alarmViewModel.dummyHeartRate , specifier: "%.0f")")
+                                .font(.system(size: 92)) + Text("bpm")
+                                .font(.title)
+                        } else {
+                            if (heartRateViewModel.latestHeartRate.isZero) {
+                                Text("-- ")
+                                    .font(.system(size: 92)) + Text("bpm")
+                                    .font(.title)
+                            } else {
+                                Text("\(heartRateViewModel.latestHeartRate , specifier: "%.0f")")
+                                    .font(.system(size: 92)) + Text("bpm")
+                                    .font(.title)
+                            }
+                        }
+                    }
                 }
-                
-                                
             }
-            
             
             VStack {
                 Spacer()
@@ -58,24 +70,29 @@ struct AlarmChallengeView: View {
                     .frame(height: 24)
                 
                 Button {
-                    isAnimationPlayed = true
-                    alarmViewModel.stopSound()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                        withAnimation {
-                            alarmViewModel.isChallengeViewShown = false
+                    if (alarmViewModel.isDebugMode) {
+                        isAnimationPlayed = true
+                        alarmViewModel.stopSound()
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            withAnimation {
+                                alarmViewModel.isChallengeViewShown = false
+                            }
                         }
+                    } else {
+//                        heartRateViewModel.startHeartRateDetection()
                     }
                 } label: {
-                    Text("Done")
+                    Text(alarmViewModel.isDebugMode ? "Done" : "Start Scanning")
                         .padding(.vertical)
                         .frame(maxWidth: .infinity)
                         .background(Color("gray"), in: RoundedRectangle(cornerRadius: 10))
                 }
+                .padding(.horizontal)
             }
             
             if (alarmViewModel.isDebugMode) {
-                VStack {
+                VStack(spacing: -6) {
                     Spacer()
                     
                     Text("Adjust Heart Rate")
@@ -95,12 +112,11 @@ struct AlarmChallengeView: View {
                         .frame(maxWidth: .infinity)
                     }
                     .padding()
-                    .background(Color("gray"), in: RoundedRectangle(cornerRadius: 10))
-                .ignoresSafeArea()
+                    .background(Color("gray"))
+                    .frame(height: 80)
                 }
-                
+                .ignoresSafeArea()
             }
-
             
             Circle()
                 .fill(Color("yellow"))
@@ -133,7 +149,6 @@ struct AlarmChallengeView: View {
                 }
             }
         }
-        .padding()
         .navigationBarHidden(true)
 //        .frame(maxWidth: .infinity, alignment: .leading)
     }

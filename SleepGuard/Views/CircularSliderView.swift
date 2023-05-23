@@ -160,7 +160,7 @@ struct CircularSliderView: View {
                     
                     alarmViewModel.timeDiff = Double(timeDifference)
 
-                    let timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
+                    let timer = Timer.scheduledTimer(withTimeInterval: alarmViewModel.isDebugMode ? 10 : TimeInterval(timeDifference), repeats: false) { _ in
                         // Code to be executed at the desired time
                         print("Executing code in 5 seconds")
                         alarmViewModel.showFullScreenNotification()
@@ -180,7 +180,7 @@ struct CircularSliderView: View {
                 Spacer()
             }
             .onAppear() {
-                healthStore.fetchLatestHeartRate()
+//                healthStore.fetchLatestHeartRate()
             }
             .padding()
             .navigationTitle("SleepGuard")
