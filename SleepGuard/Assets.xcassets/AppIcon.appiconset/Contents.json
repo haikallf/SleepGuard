@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "SleepGuard-icon-min.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

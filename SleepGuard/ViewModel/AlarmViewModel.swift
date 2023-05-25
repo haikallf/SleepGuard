@@ -38,6 +38,13 @@ class AlarmViewModel: NSObject, ObservableObject {
     }
     
     func playSound() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+            try! AVAudioSession.sharedInstance().setActive(true)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
         print("Alarm view called")
         guard let soundURL = Bundle.main.url(forResource: "hardcore", withExtension: ".mp3") else {
             print("Sound file not found.")
