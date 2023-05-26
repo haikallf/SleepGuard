@@ -80,7 +80,7 @@ struct AlarmChallengeView: View {
                             }
                         }
                     } else {
-//                        heartRateViewModel.startHeartRateDetection()
+                        heartRateViewModel.startHeartRateDetection()
                     }
                 } label: {
                     Text(alarmViewModel.isDebugMode ? "Done" : "Start Scanning")
