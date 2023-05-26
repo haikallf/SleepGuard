@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CircularSliderView: View {
     var alarmViewModel: AlarmViewModel
-    var healthStore: HealthStore
     @StateObject var heartRateViewModel: HeartRateViewModel = HeartRateViewModel()
     
     @State var shouldScroll: Bool = true
@@ -27,9 +26,8 @@ struct CircularSliderView: View {
     @State var wakeUpTime: Date?
     @State var heartRateGoal: Double
     
-    init(alarmViewModel: AlarmViewModel, healthStore: HealthStore) {
+    init(alarmViewModel: AlarmViewModel) {
         self.alarmViewModel = alarmViewModel
-        self.healthStore = healthStore
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"

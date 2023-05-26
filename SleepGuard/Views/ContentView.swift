@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var alarmViewModel: AlarmViewModel = AlarmViewModel(connectivityProvider: ConnectionProvider())
-    @StateObject var healthStore: HealthStore = HealthStore()
     
     let connect = ConnectionProvider()
     var body: some View {
@@ -22,7 +21,7 @@ struct ContentView: View {
                         AlarmChallengeView(alarmViewModel: alarmViewModel)
                             .preferredColorScheme(.dark)
                     } else {
-                        CircularSliderView(alarmViewModel: alarmViewModel, healthStore: healthStore)
+                        CircularSliderView(alarmViewModel: alarmViewModel)
                             .preferredColorScheme(.dark)
                     }
                 }
